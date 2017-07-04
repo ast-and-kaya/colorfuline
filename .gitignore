@@ -1,6 +1,5 @@
 /data/
 /Debug/
 /Release/
-*.
 *.filters
 *.vcxproj
