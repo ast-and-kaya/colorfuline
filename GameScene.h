@@ -38,5 +38,5 @@ private:
 	MusicManager musicManager;
 	ConfigManager config;
 
-	vector<Note> m_note;
+	//vector<Note> m_note;
 };

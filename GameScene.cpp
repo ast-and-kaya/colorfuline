@@ -19,15 +19,15 @@ void GameScene::initialize()
 	for (int i = 0; i < 100; i++) {
 		Note note;
 		note.setNote(i*0.5, sf::Color::Red);
-		m_note.push_back(note);
+		//m_note.push_back(note);
 	}
 
 	for (int i = 0; i < 100; i++)
 	{
-		cout << m_note[i].getSec() << endl;
+		//cout << m_note[i].getSec() << endl;
 	}
 	
-	cout << m_note.size() << endl;
+	//cout << m_note.size() << endl;
 }
 
 
