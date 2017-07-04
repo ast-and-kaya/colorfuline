@@ -2,7 +2,6 @@
 #include "WindowManager.h"
 #include "TextureManager.h"
 #include "SFML\Graphics.hpp"
-#include "GameScene.h"
 #include <iostream>
 
 using namespace std;
@@ -17,7 +16,7 @@ public:
 
 	int judge(float sec, sf::Color color);
 
-	bool getSec();
+	float getSec();
 
 	void update();
 	void render();

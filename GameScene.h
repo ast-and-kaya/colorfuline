@@ -14,13 +14,6 @@
 
 using namespace std;
 
-enum playState {
-	playBefore,
-	playNow,
-	playAfter,
-	playStop
-};
-
 class GameScene :
 	public Scene
 {
@@ -32,11 +25,19 @@ public:
 	Scene* update();
 	void render();
 
+	void playBefore();
+	void playNow();
+	void playAfter();
+	void playStop();
+
 private:
 	WindowManager windowManager;
 	KeyManager keyManager;
 	MusicManager musicManager;
 	ConfigManager config;
 
-	//vector<Note> m_note;
+	//ÉQÅ[ÉÄÇÃèÛë‘Å@0:before 1:now 2:after 3:stop
+	int m_game_state;
+
+	vector<Note> m_note;
 };

@@ -43,6 +43,8 @@ void TextureManager::Loading() {
 	m_texture["select_jacket_cover"].loadFromFile("data/image/Select/jacket_cover.png");
 
 	//ƒQ[ƒ€
+	m_texture.insert(map<string, sf::Texture>::value_type("game_note", sf::Texture()));
+	m_texture["game_note"].loadFromFile("data/image/Game/note.png");
 
 	//ƒŠƒUƒ‹ƒg
 }
