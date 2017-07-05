@@ -11,6 +11,7 @@ GameScene::~GameScene()
 
 void GameScene::initialize()
 {
+	m_game_state = 0;
 
 	cout << musicManager.getItem(config.getNowMusic(config.Num)).music_name << endl;
 	cout << config.getNowMusic(config.Num) << endl;
@@ -24,6 +25,10 @@ void GameScene::initialize()
 	}
 	
 	cout << m_note.size() << endl;
+
+	//playStop
+	m_select_cursor = 0;
+	m_scene_change = false;
 }
 
 
@@ -48,6 +53,9 @@ Scene* GameScene::update()
 	}
 
 	//シーン遷移
+	//セレクト
+	if (m_scene_change) next = new SelectScene;
+	//リザルト
 	if (keyManager.push_key(sf::Keyboard::Return))
 	{
 		ResultScene result;
@@ -62,17 +70,20 @@ void GameScene::render()
 {
 	for (int i = 0; i < m_note.size(); i++)
 	{
-		m_note[i].render();
+		//m_note[i].render();
 	}
 }
 
 void GameScene::playBefore() {
 	cout << "before" << endl;
+
+	if (keyManager.push_key(sf::Keyboard::Space)) m_game_state = 1;
 }
 
 void GameScene::playNow() {
 	cout << "now" << endl;
 
+	if (keyManager.push_key(sf::Keyboard::Space)) m_game_state = 2;
 }
 
 void GameScene::playAfter() {
@@ -82,5 +93,26 @@ void GameScene::playAfter() {
 
 void GameScene::playStop() {
 	cout << "stop" << endl;
+
+	if (keyManager.push_key(sf::Keyboard::Up)) m_select_cursor -= (m_select_cursor > 0) ? 1 : 0;
+	if (keyManager.push_key(sf::Keyboard::Down)) m_select_cursor += (m_select_cursor < 2) ? 1 : 0;
+
+	cout << m_select_cursor << endl;
+
+	if (keyManager.push_key(sf::Keyboard::Return))
+	{
+		switch (m_select_cursor)
+		{
+			case 0: //再開
+				m_game_state = 1;
+				break;
+			case 1: //リトライ
+				initialize();
+				break;
+			case 2: //セレクト
+				m_scene_change = true;
+				break;
+		}
+	}
 
 }

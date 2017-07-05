@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Scene.h"
+#include "SelectScene.h"
 #include "ResultScene.h"
 
 #include "MusicManager.h"
@@ -40,4 +41,8 @@ private:
 	int m_game_state;
 
 	vector<Note> m_note;
+
+	//playStop
+	int m_select_cursor;
+	bool m_scene_change;
 };
