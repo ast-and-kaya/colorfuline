@@ -1,5 +1,8 @@
 #include "GameScene.h"
 
+#include "SelectScene.h"
+#include "ResultScene.h"
+
 GameScene::GameScene()
 {
 }
@@ -23,12 +26,9 @@ void GameScene::initialize()
 		m_note[i].setNote(i*0.5, sf::Color::Red);
 		cout << m_note[i].getSec() << endl;
 	}
-	
 	cout << m_note.size() << endl;
 
-	//playStop
-	m_select_cursor = 0;
-	m_scene_change = false;
+	pause.initialize();
 }
 
 
@@ -45,22 +45,11 @@ Scene* GameScene::update()
 		playNow();
 		break;
 	case 2://after
-		playAfter();
+		playAfter(next);
 		break;
 	case 3://stop
-		playStop();
+		m_game_state = pause.update(next);
 		break;
-	}
-
-	//シーン遷移
-	//セレクト
-	if (m_scene_change) next = new SelectScene;
-	//リザルト
-	if (keyManager.push_key(sf::Keyboard::Return))
-	{
-		ResultScene result;
-		result.setScereData(1234, 5678, 910);
-		next = new ResultScene;
 	}
 
 	return next;
@@ -70,8 +59,11 @@ void GameScene::render()
 {
 	for (int i = 0; i < m_note.size(); i++)
 	{
-		//m_note[i].render();
+		m_note[i].render();
 	}
+
+	//ポーズ画面
+	if(m_game_state == 3) pause.render();
 }
 
 void GameScene::playBefore() {
@@ -84,35 +76,17 @@ void GameScene::playNow() {
 	cout << "now" << endl;
 
 	if (keyManager.push_key(sf::Keyboard::Space)) m_game_state = 2;
+	if (keyManager.push_key(sf::Keyboard::Escape)) m_game_state = 3;
 }
 
-void GameScene::playAfter() {
+void GameScene::playAfter(Scene*& n) {
 	cout << "after" << endl;
 
-}
-
-void GameScene::playStop() {
-	cout << "stop" << endl;
-
-	if (keyManager.push_key(sf::Keyboard::Up)) m_select_cursor -= (m_select_cursor > 0) ? 1 : 0;
-	if (keyManager.push_key(sf::Keyboard::Down)) m_select_cursor += (m_select_cursor < 2) ? 1 : 0;
-
-	cout << m_select_cursor << endl;
-
+	//リザルト
 	if (keyManager.push_key(sf::Keyboard::Return))
 	{
-		switch (m_select_cursor)
-		{
-			case 0: //再開
-				m_game_state = 1;
-				break;
-			case 1: //リトライ
-				initialize();
-				break;
-			case 2: //セレクト
-				m_scene_change = true;
-				break;
-		}
+		ResultScene result;
+		result.setScereData(1234, 5678, 910);
+		n = new ResultScene;
 	}
-
 }

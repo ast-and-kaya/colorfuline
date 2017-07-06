@@ -5,13 +5,12 @@
 #include <vector>
 
 #include "Scene.h"
-#include "SelectScene.h"
-#include "ResultScene.h"
 
 #include "MusicManager.h"
 #include "ConfigManager.h"
 
 #include "Note.h"
+#include "Pause.h"
 
 using namespace std;
 
@@ -28,21 +27,17 @@ public:
 
 	void playBefore();
 	void playNow();
-	void playAfter();
-	void playStop();
+	void playAfter(Scene*& n);
 
 private:
 	WindowManager windowManager;
 	KeyManager keyManager;
 	MusicManager musicManager;
 	ConfigManager config;
+	Pause pause;
 
 	//ÉQÅ[ÉÄÇÃèÛë‘Å@0:before 1:now 2:after 3:stop
 	int m_game_state;
 
 	vector<Note> m_note;
-
-	//playStop
-	int m_select_cursor;
-	bool m_scene_change;
 };
