@@ -152,7 +152,6 @@ Scene* SelectScene::update()
 	}
 	m_shad_jacket.setParameter("t_color", m_diff_color[config.getNowMusic(config.Diff)]);
 
-
 	//ƒV[ƒ“ˆÚ“®
 	if (keyManager.push_key(sf::Keyboard::Return)) next = new GameScene;
 	if (keyManager.push_key(sf::Keyboard::Escape)) next = new TitleScene;

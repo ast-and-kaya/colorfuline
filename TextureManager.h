@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include "SFML\Graphics.hpp"
+#include "SFML\Audio.hpp"
 
 using namespace std;
 

@@ -40,9 +40,10 @@ int Pause::update(Scene*& n)
 	if (keyManager.push_key(sf::Keyboard::Up)) m_select_cursor -= (m_select_cursor > 0) ? 1 : 0;
 	if (keyManager.push_key(sf::Keyboard::Down)) m_select_cursor += (m_select_cursor < 2) ? 1 : 0;
 
+	for (int i = 0; i < 3; i++) m_menu[i].setCharacterSize(130);
+	m_menu[m_select_cursor].setCharacterSize(150);
 
-
-	cout << m_select_cursor << endl;
+	//cout << m_select_cursor << endl;
 
 	//‘I‘ð
 	if (keyManager.push_key(sf::Keyboard::Return))

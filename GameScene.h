@@ -8,6 +8,7 @@
 
 #include "MusicManager.h"
 #include "ConfigManager.h"
+#include "GameAudioManager.h"
 
 #include "Note.h"
 #include "Pause.h"
@@ -33,6 +34,7 @@ private:
 	WindowManager windowManager;
 	KeyManager keyManager;
 	MusicManager musicManager;
+	GameAudioManager m_music;
 	ConfigManager config;
 	Pause pause;
 

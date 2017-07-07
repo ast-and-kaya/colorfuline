@@ -26,7 +26,11 @@ void GameScene::initialize()
 		m_note[i].setNote(i*0.5, sf::Color::Red);
 		cout << m_note[i].getSec() << endl;
 	}
-	cout << m_note.size() << endl;
+
+	//‰¹Šyƒtƒ@ƒCƒ‹“Ç‚Ýž‚Ý
+	string folder_name = musicManager.getFolderList(config.getNowMusic(config.Num));
+	m_music.Load(folder_name,"data/music/" + folder_name + "/music.wav");
+	m_music.start();
 
 	pause.initialize();
 }
@@ -49,6 +53,7 @@ Scene* GameScene::update()
 		break;
 	case 3://stop
 		m_game_state = pause.update(next);
+		(m_game_state == 1) ? m_music.start() : 0;
 		break;
 	}
 
@@ -67,16 +72,18 @@ void GameScene::render()
 }
 
 void GameScene::playBefore() {
-	cout << "before" << endl;
-
-	if (keyManager.push_key(sf::Keyboard::Space)) m_game_state = 1;
+	if (true) m_game_state = 1;
 }
 
 void GameScene::playNow() {
-	cout << "now" << endl;
 
 	if (keyManager.push_key(sf::Keyboard::Space)) m_game_state = 2;
-	if (keyManager.push_key(sf::Keyboard::Escape)) m_game_state = 3;
+
+	//“r’†’âŽ~
+	if (keyManager.push_key(sf::Keyboard::Escape)) {
+		m_music.pause();
+		m_game_state = 3;
+	}
 }
 
 void GameScene::playAfter(Scene*& n) {
