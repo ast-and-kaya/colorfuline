@@ -5,21 +5,15 @@
 #include <vector>
 
 #include "Scene.h"
-#include "ResultScene.h"
 
 #include "MusicManager.h"
 #include "ConfigManager.h"
+#include "GameAudioManager.h"
 
 #include "Note.h"
+#include "Pause.h"
 
 using namespace std;
-
-enum playState {
-	playBefore,
-	playNow,
-	playAfter,
-	playStop
-};
 
 class GameScene :
 	public Scene
@@ -32,11 +26,20 @@ public:
 	Scene* update();
 	void render();
 
+	void playBefore();
+	void playNow();
+	void playAfter(Scene*& n);
+
 private:
 	WindowManager windowManager;
 	KeyManager keyManager;
 	MusicManager musicManager;
+	GameAudioManager m_music;
 	ConfigManager config;
+	Pause pause;
+
+	//ÉQÅ[ÉÄÇÃèÛë‘Å@0:before 1:now 2:after 3:stop
+	int m_game_state;
 
 	vector<Note> m_note;
 };
