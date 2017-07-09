@@ -24,13 +24,14 @@ void GameAudioManager::Load(string key, string path)
 	//}
 }
 
-void GameAudioManager::start(bool loop)
+void GameAudioManager::start( int volume, bool loop)
 {
-
 	m_music.play();
 	m_music.setLoop(loop);
+	m_music.setVolume(volume);
 	//m_music[m_back_key].play();
 	//m_music[m_back_key].setLoop(loop);
+	//m_music[m_back_key].setVolume(volume);
 }
 
 void GameAudioManager::pause()
@@ -47,6 +48,7 @@ void GameAudioManager::stop()
 
 float GameAudioManager::getOffset()
 {
+	//cout << m_music.getPlayingOffset().asSeconds() << endl;
 	return m_music.getPlayingOffset().asSeconds();
 	//return m_music[m_back_key].getPlayingOffset().asSeconds();
 }

@@ -12,7 +12,7 @@ public:
 	~GameAudioManager();
 
 	void Load(string key, string path);
-	void start(bool loop = false);
+	void start(int volume = 1.0f, bool loop = true);
 	void pause();
 	void stop();
 	float getOffset();

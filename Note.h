@@ -13,17 +13,17 @@ public:
 	~Note();
 
 	void setNote(float sec, sf::Color color);
+	void update(float music_offset);
+	void render();
 
 	int judge(float sec, sf::Color color);
-
 	float getSec();
-
-	void update();
-	void render();
 
 private:
 	WindowManager windowManager;
 	TextureManager tex;
+
+	float lerp(float music_offset);
 
 	sf::Sprite m_sprite;
 

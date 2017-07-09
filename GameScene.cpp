@@ -15,6 +15,7 @@ GameScene::~GameScene()
 void GameScene::initialize()
 {
 	m_game_state = 0;
+	m_start_margin = 3.0f;
 
 	cout << musicManager.getItem(config.getNowMusic(config.Num)).music_name << endl;
 	cout << config.getNowMusic(config.Num) << endl;
@@ -27,10 +28,13 @@ void GameScene::initialize()
 		cout << m_note[i].getSec() << endl;
 	}
 
+	//判定ライン
+	m_judge_line.setTexture(tex.get("game_judge_line"));
+	m_judge_line.setPosition(0,900);
+
 	//音楽ファイル読み込み
 	string folder_name = musicManager.getFolderList(config.getNowMusic(config.Num));
 	m_music.Load(folder_name,"data/music/" + folder_name + "/music.wav");
-	m_music.start();
 
 	pause.initialize();
 }
@@ -62,9 +66,13 @@ Scene* GameScene::update()
 
 void GameScene::render()
 {
-	for (int i = 0; i < m_note.size(); i++)
+	//判定ライン
+	windowManager.getWindow()->draw(m_judge_line);
+
+	//ノート
+	for (auto& it: m_note)
 	{
-		m_note[i].render();
+		it.render();
 	}
 
 	//ポーズ画面
@@ -72,12 +80,28 @@ void GameScene::render()
 }
 
 void GameScene::playBefore() {
-	if (true) m_game_state = 1;
+	for (auto& it : m_note)
+	{
+		it.update(m_clock.getElapsedTime().asSeconds() - m_start_margin);
+	}
+	if (m_start_margin <= m_clock.getElapsedTime().asSeconds()) {
+		m_game_state = 1;
+		m_music.start();
+	}
 }
 
 void GameScene::playNow() {
 
 	if (keyManager.push_key(sf::Keyboard::Space)) m_game_state = 2;
+
+	for (auto& it : m_note)
+	{
+		it.update(m_clock.getElapsedTime().asSeconds() - m_start_margin);
+	}
+
+	float f = (m_clock.getElapsedTime().asSeconds() - m_start_margin) - m_music.getOffset();
+	cout << f << endl;
+	
 
 	//途中停止
 	if (keyManager.push_key(sf::Keyboard::Escape)) {

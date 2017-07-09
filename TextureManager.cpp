@@ -46,6 +46,9 @@ void TextureManager::Loading() {
 	m_texture.insert(map<string, sf::Texture>::value_type("game_note", sf::Texture()));
 	m_texture["game_note"].loadFromFile("data/image/Game/note.png");
 
+	m_texture.insert(map<string, sf::Texture>::value_type("game_judge_line", sf::Texture()));
+	m_texture["game_judge_line"].loadFromFile("data/image/Game/judge_line.png");
+
 	//ƒŠƒUƒ‹ƒg
 }
 

@@ -34,6 +34,7 @@ private:
 	WindowManager windowManager;
 	KeyManager keyManager;
 	MusicManager musicManager;
+	TextureManager tex;
 	GameAudioManager m_music;
 	ConfigManager config;
 	Pause pause;
@@ -41,5 +42,10 @@ private:
 	//ƒQ[ƒ€‚Ìó‘Ô@0:before 1:now 2:after 3:stop
 	int m_game_state;
 
+	float m_start_margin;
+	sf::Clock m_clock;
+
 	vector<Note> m_note;
+
+	sf::Sprite m_judge_line;
 };
