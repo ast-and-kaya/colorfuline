@@ -22,9 +22,10 @@ void GameScene::initialize()
 
 	//ノート追加
 	//ファイルの仕様と拡張子を決めておくように
-	for (int i = 0; i < 100; i++) {
+	sf::Color c[3] = {sf::Color::Red,sf::Color::Green,sf::Color::Blue};
+	for (int i = 0; i < 300; i++) {
 		m_note.push_back(Note());
-		m_note[i].setNote(i*0.5, sf::Color::Red);
+		m_note[i].setNote(i*0.5, c[i%3]);
 		cout << m_note[i].getSec() << endl;
 	}
 
@@ -99,8 +100,8 @@ void GameScene::playNow() {
 		it.update(m_clock.getElapsedTime().asSeconds() - m_start_margin);
 	}
 
-	float f = (m_clock.getElapsedTime().asSeconds() - m_start_margin) - m_music.getOffset();
-	cout << f << endl;
+	//float f = (m_clock.getElapsedTime().asSeconds() - m_start_margin) - m_music.getOffset();
+	//cout << f << endl;
 	
 
 	//途中停止
