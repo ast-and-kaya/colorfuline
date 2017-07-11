@@ -2,6 +2,7 @@
 #include "SFML\Audio.hpp"
 #include <map>
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -17,8 +18,7 @@ public:
 	void stop();
 	float getOffset();
 
-	//static map<string, sf::Music> m_music;
-	static sf::Music m_music;
+	static map<string, std::shared_ptr<sf::Music>> m_music;
 	static string m_back_key;
 };
 
