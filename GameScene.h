@@ -9,6 +9,7 @@
 #include "MusicManager.h"
 #include "ConfigManager.h"
 #include "GameAudioManager.h"
+#include "KeyJudge.h"
 
 #include "Note.h"
 #include "Pause.h"
@@ -37,6 +38,7 @@ private:
 	TextureManager tex;
 	GameAudioManager m_music;
 	ConfigManager config;
+	KeyJudge keyJudge;
 	Pause pause;
 
 	//ƒQ[ƒ€‚Ìó‘Ô@0:before 1:now 2:after 3:stop

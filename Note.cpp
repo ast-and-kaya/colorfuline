@@ -28,6 +28,8 @@ void Note::render() {
 }
 
 int Note::judge(float sec, sf::Color color) {
+
+	//cout << color.r << endl;
 	
 	return 0;
 }

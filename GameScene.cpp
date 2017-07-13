@@ -45,6 +45,8 @@ Scene* GameScene::update()
 {
 	Scene* next = this;
 
+	keyJudge.update();
+
 	switch (m_game_state)
 	{
 	case 0://before
@@ -93,7 +95,7 @@ void GameScene::playBefore() {
 
 void GameScene::playNow() {
 
-	if (keyManager.push_key(sf::Keyboard::Space)) m_game_state = 2;
+	m_note[0].judge(m_clock.getElapsedTime().asSeconds() - m_start_margin, keyJudge.getKeyColor());
 
 	for (auto& it : m_note)
 	{
@@ -104,6 +106,8 @@ void GameScene::playNow() {
 	//cout << f << endl;
 	
 
+	//ƒAƒtƒ^[ˆÚ“®
+	if (keyManager.push_key(sf::Keyboard::Space)) m_game_state = 2;
 	//“r’†’âŽ~
 	if (keyManager.push_key(sf::Keyboard::Escape)) {
 		m_music.pause();
