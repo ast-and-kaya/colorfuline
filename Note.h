@@ -16,7 +16,9 @@ public:
 	void update(float music_offset);
 	void render();
 
-	int judge(float sec, sf::Color color);
+	int judge(float sec, sf::Color color);// 0:miss 1:perfect 2:great 3:good 
+	bool rangeOut(float sec);
+
 	float getSec();
 
 private:
@@ -30,4 +32,8 @@ private:
 	float m_sec;
 	sf::Color m_color;
 
+	//”»’è”ÍˆÍ
+	float m_j_perfect;
+	float m_j_great;
+	float m_j_good;
 };

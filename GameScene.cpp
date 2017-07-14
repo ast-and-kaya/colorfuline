@@ -17,6 +17,12 @@ void GameScene::initialize()
 	m_game_state = 0;
 	m_start_margin = 3.0f;
 
+	 m_score = 0;
+	 m_perfect = 0;
+	 m_maxcombo = 0;
+
+	 m_combo = 0;
+
 	cout << musicManager.getItem(config.getNowMusic(config.Num)).music_name << endl;
 	cout << config.getNowMusic(config.Num) << endl;
 
@@ -95,7 +101,33 @@ void GameScene::playBefore() {
 
 void GameScene::playNow() {
 
-	m_note[0].judge(m_clock.getElapsedTime().asSeconds() - m_start_margin, keyJudge.getKeyColor());
+	int judge = m_note[0].judge(m_clock.getElapsedTime().asSeconds() - m_start_margin, keyJudge.getKeyColor());
+	
+	//成功判定
+	if (judge != 0)
+	{
+		m_combo++;
+
+		switch (judge)
+		{
+		case 1://perfect
+			break;
+		case 2://great
+			break;
+		case 3://good
+			break;
+		}
+		
+		m_note.erase(m_note.begin());
+	}
+	//画面外(ミス)判定
+	if (m_note[0].rangeOut(m_clock.getElapsedTime().asSeconds() - m_start_margin))
+	{
+		//コンボ中断と更新
+		m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
+		m_combo = 0;
+		m_note.erase(m_note.begin());
+	}
 
 	for (auto& it : m_note)
 	{
@@ -104,6 +136,8 @@ void GameScene::playNow() {
 
 	//float f = (m_clock.getElapsedTime().asSeconds() - m_start_margin) - m_music.getOffset();
 	//cout << f << endl;
+
+	//cout << m_note.size() << endl;
 	
 
 	//アフター移動
@@ -116,13 +150,13 @@ void GameScene::playNow() {
 }
 
 void GameScene::playAfter(Scene*& n) {
-	cout << "after" << endl;
+	m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
 
 	//リザルト
 	if (keyManager.push_key(sf::Keyboard::Return))
 	{
 		ResultScene result;
-		result.setScereData(1234, 5678, 910);
+		result.setScereData(m_score, m_maxcombo, m_perfect);
 		n = new ResultScene;
 	}
 }

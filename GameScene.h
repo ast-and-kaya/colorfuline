@@ -44,6 +44,12 @@ private:
 	//ƒQ[ƒ€‚Ìó‘Ô@0:before 1:now 2:after 3:stop
 	int m_game_state;
 
+	float m_score;
+	int m_perfect;
+	int m_maxcombo;
+
+	int m_combo;
+
 	float m_start_margin;
 	sf::Clock m_clock;
 

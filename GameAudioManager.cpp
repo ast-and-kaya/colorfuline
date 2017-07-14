@@ -17,10 +17,10 @@ void GameAudioManager::Load(string key, string path)
 	m_back_key = key;
 
 	m_music.insert(make_pair(key, make_shared<sf::Music>()));
-	//if (m_music.find(key) == m_music.end())
-	//{
+	if (m_music.find(key) != m_music.end())
+	{
 		m_music[key]->openFromFile(path);
-	//}
+	}
 }
 
 void GameAudioManager::start( int volume, bool loop)
