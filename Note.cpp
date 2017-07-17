@@ -36,14 +36,13 @@ int Note::judge(float sec, sf::Color color) { // 0:miss 1:perfect 2:great 3:good
 
 	//cout << color.r << endl;
 
-	if (m_color != color)
+	if (m_color == color)
 	{
-		return 0;
+		if (abs(m_sec - sec) <= m_j_perfect / 2.f) return 1;
+		if (abs(m_sec - sec) <= m_j_great / 2.f) return 2;
+		if (abs(m_sec - sec) <= m_j_good / 2.f) return 3;
 	}
 
-	if (abs(m_sec - sec) <= m_j_perfect / 2.f) return 1;
-	if (abs(m_sec - sec) <= m_j_great / 2.f) return 2;
-	if (abs(m_sec - sec) <= m_j_good / 2.f) return 3;
 	
 	return 0;
 }
@@ -59,6 +58,6 @@ float Note::getSec() {
 
 float Note::lerp(float music_offset)
 {
-	float f = 900 + (-1)*((m_sec - music_offset) * 900 * 1.0);
+	float f = 900 + (-1)*((m_sec - music_offset) * 900 * 1.5);
 	return f;
 }

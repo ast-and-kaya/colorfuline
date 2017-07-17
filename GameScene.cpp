@@ -27,11 +27,11 @@ void GameScene::initialize()
 	cout << config.getNowMusic(config.Num) << endl;
 
 	//ノート追加
-	//ファイルの仕様と拡張子を決めておくように
+	//ファイルの仕様と拡張子を決めておく
 	sf::Color c[3] = {sf::Color::Red,sf::Color::Green,sf::Color::Blue};
 	for (int i = 0; i < 300; i++) {
 		m_note.push_back(Note());
-		m_note[i].setNote(i*0.5, c[i%3]);
+		m_note[i].setNote(i*(60.f/162.f), c[i%3]);
 		cout << m_note[i].getSec() << endl;
 	}
 
@@ -89,23 +89,23 @@ void GameScene::render()
 }
 
 void GameScene::playBefore() {
-	for (auto& it : m_note)
-	{
-		it.update(m_clock.getElapsedTime().asSeconds() - m_start_margin);
-	}
-	if (m_start_margin <= m_clock.getElapsedTime().asSeconds()) {
-		m_game_state = 1;
-		m_music.start();
-	}
+	m_game_state = 1;
 }
 
 void GameScene::playNow() {
 
+	if (m_start_margin <= m_clock.getElapsedTime().asSeconds()) {
+		m_music.start();//再生中は無効
+	}
+
 	int judge = m_note[0].judge(m_clock.getElapsedTime().asSeconds() - m_start_margin, keyJudge.getKeyColor());
 	
+
 	//成功判定
 	if (judge != 0)
 	{
+		cout << judge << endl;
+		
 		m_combo++;
 
 		switch (judge)
@@ -120,6 +120,7 @@ void GameScene::playNow() {
 		
 		m_note.erase(m_note.begin());
 	}
+
 	//画面外(ミス)判定
 	if (m_note[0].rangeOut(m_clock.getElapsedTime().asSeconds() - m_start_margin))
 	{
@@ -141,7 +142,8 @@ void GameScene::playNow() {
 	
 
 	//アフター移動
-	if (keyManager.push_key(sf::Keyboard::Space)) m_game_state = 2;
+	if (m_note.size() == 0) m_game_state = 2;
+
 	//途中停止
 	if (keyManager.push_key(sf::Keyboard::Escape)) {
 		m_music.pause();

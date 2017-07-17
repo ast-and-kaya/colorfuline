@@ -13,7 +13,7 @@ KeyJudge::~KeyJudge()
 
 void KeyJudge::update()
 {
-	m_color = sf::Color(0, 0, 0, 0);
+	m_color = sf::Color(0, 0, 0, 255);
 
 	if (keyManager.push_key(sf::Keyboard::J)) m_color.r = 255;
 	if (keyManager.push_key(sf::Keyboard::K)) m_color.g = 255;

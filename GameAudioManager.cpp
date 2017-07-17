@@ -25,9 +25,11 @@ void GameAudioManager::Load(string key, string path)
 
 void GameAudioManager::start( int volume, bool loop)
 {
-	m_music[m_back_key]->play();
-	m_music[m_back_key]->setLoop(loop);
-	m_music[m_back_key]->setVolume(volume);
+	if (m_music[m_back_key]->getStatus() != sf::SoundSource::Status::Playing) {
+		m_music[m_back_key]->play();
+		m_music[m_back_key]->setLoop(loop);
+		m_music[m_back_key]->setVolume(volume);
+	}
 }
 
 void GameAudioManager::pause()
