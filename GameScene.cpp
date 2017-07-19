@@ -17,14 +17,14 @@ void GameScene::initialize()
 	m_game_state = 0;
 	m_start_margin = 3.0f;
 
-	 m_score = 0;
-	 m_perfect = 0;
-	 m_maxcombo = 0;
+	m_score = 0;
+	m_perfect = 0;
+	m_maxcombo = 0;
 
-	 m_combo = 0;
+	m_combo = 0;
 
-	cout << musicManager.getItem(config.getNowMusic(config.Num)).music_name << endl;
-	cout << config.getNowMusic(config.Num) << endl;
+	//cout << musicManager.getItem(config.getNowMusic(config.Num)).music_name << endl;
+	//cout << config.getNowMusic(config.Num) << endl;
 
 	//ノート追加
 	//ファイルの仕様と拡張子を決めておく
@@ -32,18 +32,26 @@ void GameScene::initialize()
 	for (int i = 0; i < 300; i++) {
 		m_note.push_back(Note());
 		m_note[i].setNote(i*(60.f/162.f), c[i%3]);
-		cout << m_note[i].getSec() << endl;
+		//cout << m_note[i].getSec() << endl;
 	}
 
 	//判定ライン
 	m_judge_line.setTexture(tex.get("game_judge_line"));
 	m_judge_line.setPosition(0,900);
 
+	//スコア等の文字
+	//フォント
+	characterDisplay.setFont("Dosis", "data/font/Dosis-Light.ttf");
+	characterDisplay.setFont("tegaki", "data/font/851tegaki.ttf");
+	//文字
+	characterDisplay.setCharacter("score", "Dosis", to_string(m_score), sf::Vector2f(0, 0));
+
 	//音楽ファイル読み込み
 	string folder_name = musicManager.getFolderList(config.getNowMusic(config.Num));
 	m_music.Load(folder_name,"data/music/" + folder_name + "/music.wav");
 
 	pause.initialize();
+	supportLine.initialize();
 }
 
 
@@ -75,8 +83,13 @@ Scene* GameScene::update()
 
 void GameScene::render()
 {
+	supportLine.render();
+
 	//判定ライン
 	windowManager.getWindow()->draw(m_judge_line);
+
+	//文字
+	characterDisplay.render();
 
 	//ノート
 	for (auto& it: m_note)
@@ -135,10 +148,11 @@ void GameScene::playNow() {
 		it.update(m_clock.getElapsedTime().asSeconds() - m_start_margin);
 	}
 
+	supportLine.update();
+
+	//音ズレ
 	//float f = (m_clock.getElapsedTime().asSeconds() - m_start_margin) - m_music.getOffset();
 	//cout << f << endl;
-
-	//cout << m_note.size() << endl;
 	
 
 	//アフター移動

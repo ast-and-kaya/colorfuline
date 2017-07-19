@@ -10,6 +10,8 @@
 #include "ConfigManager.h"
 #include "GameAudioManager.h"
 #include "KeyJudge.h"
+#include "SupportLine.h"
+#include "CharacterDisplay.h"
 
 #include "Note.h"
 #include "Pause.h"
@@ -40,6 +42,8 @@ private:
 	ConfigManager config;
 	KeyJudge keyJudge;
 	Pause pause;
+	SupportLine supportLine;
+	CharacterDisplay characterDisplay;
 
 	//ƒQ[ƒ€‚Ìó‘Ô@0:before 1:now 2:after 3:stop
 	int m_game_state;
