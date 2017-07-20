@@ -15,17 +15,19 @@ void Note::setNote(float sec, sf::Color color) {
 
 	m_sprite.setTexture(tex.get("game_note"));
 	m_sprite.setColor(color);
+	m_sprite.setOrigin(tex.get("game_note").getSize().x / 2.f, 0);
 
 	float frame = 1.f / 60.f;
 	m_j_perfect = frame * 2;
-	m_j_great = frame * 8;
-	m_j_good = frame * 16;
+	m_j_great = frame * 6;
+	m_j_good = frame * 10;
 }
 
 void Note::update(float music_offset) {
-	sf::Vector2f pos(0, lerp(music_offset));
+	sf::Vector2f pos(1920 / 2.f, lerp(music_offset));
 	m_sprite.setPosition(pos);
-
+	float t = pos.y / 900;
+	//m_sprite.setScale((1 - t)*0 + t * 1, (1 - t)*0.2 + t * 1);
 }
 
 void Note::render() {
@@ -58,6 +60,6 @@ float Note::getSec() {
 
 float Note::lerp(float music_offset)
 {
-	float f = 900 + (-1)*((m_sec - music_offset) * 900 * 1.5);
+	float f = 900 + (-1)*((m_sec - music_offset) * 900 * 1.5f);
 	return f;
 }

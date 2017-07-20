@@ -31,7 +31,7 @@ void SupportLine::update()
 
 void SupportLine::render()
 {
-	windowManager.getWindow()->draw(test);
+	//windowManager.getWindow()->draw(test);
 	windowManager.getWindow()->draw(m_sprite,m_state);
 }
 

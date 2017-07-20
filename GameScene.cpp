@@ -23,7 +23,6 @@ void GameScene::initialize()
 
 	m_combo = 0;
 
-	//cout << musicManager.getItem(config.getNowMusic(config.Num)).music_name << endl;
 	//cout << config.getNowMusic(config.Num) << endl;
 
 	//ノート追加
@@ -44,7 +43,10 @@ void GameScene::initialize()
 	characterDisplay.setFont("Dosis", "data/font/Dosis-Light.ttf");
 	characterDisplay.setFont("tegaki", "data/font/851tegaki.ttf");
 	//文字
-	characterDisplay.setCharacter("score", "Dosis", to_string(m_score), sf::Vector2f(0, 0));
+	characterDisplay.setCharacter("score", "Dosis", to_string((int)m_score), sf::Vector2f(100, 770),160);
+	characterDisplay.setCharacter("combo", "Dosis", "x" + to_string((int)m_combo), sf::Vector2f(1600, 770),160);
+	characterDisplay.setCharacter("title", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).music_name, sf::Vector2f(50, 0),75);
+	characterDisplay.setCharacter("artist", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).artist, sf::Vector2f(50, 100),60);
 
 	//音楽ファイル読み込み
 	string folder_name = musicManager.getFolderList(config.getNowMusic(config.Num));
@@ -107,6 +109,7 @@ void GameScene::playBefore() {
 
 void GameScene::playNow() {
 
+	//曲スタート
 	if (m_start_margin <= m_clock.getElapsedTime().asSeconds()) {
 		m_music.start();//再生中は無効
 	}
@@ -124,10 +127,13 @@ void GameScene::playNow() {
 		switch (judge)
 		{
 		case 1://perfect
+			m_score += 100;
 			break;
 		case 2://great
+			m_score += 10;
 			break;
 		case 3://good
+			m_score += 1;
 			break;
 		}
 		
@@ -153,7 +159,10 @@ void GameScene::playNow() {
 	//音ズレ
 	//float f = (m_clock.getElapsedTime().asSeconds() - m_start_margin) - m_music.getOffset();
 	//cout << f << endl;
-	
+
+	//スコア表示更新
+	characterDisplay.changeString("score", to_string((int)m_score));
+	characterDisplay.changeString("combo", "x" + to_string((int)m_combo));
 
 	//アフター移動
 	if (m_note.size() == 0) m_game_state = 2;
