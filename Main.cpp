@@ -14,7 +14,7 @@ int main()
 {
 	ConfigManager config;
 	config.DataLoading();
-	config.setNowMusic(0, 0);
+	config.initialize();
 
 	MusicManager musicManager;
 	musicManager.DataLoding();

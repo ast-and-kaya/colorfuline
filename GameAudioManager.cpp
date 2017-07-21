@@ -44,6 +44,10 @@ void GameAudioManager::stop()
 
 float GameAudioManager::getOffset()
 {
-	//cout << m_music.getPlayingOffset().asSeconds() << endl;
 	return m_music[m_back_key]->getPlayingOffset().asSeconds();
+}
+
+float GameAudioManager::getDuration()
+{
+	return m_music[m_back_key]->getDuration().asSeconds();
 }

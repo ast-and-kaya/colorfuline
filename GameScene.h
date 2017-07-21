@@ -54,7 +54,6 @@ private:
 
 	int m_combo;
 
-	float m_start_margin;
 	sf::Clock m_clock;
 
 	vector<Note> m_note;

@@ -1,8 +1,9 @@
 #pragma once
 #include "WindowManager.h"
-#include "TextureManager.h"
 #include "SFML\Graphics.hpp"
+#include "TextureManager.h"
 #include <iostream>
+#include "ConfigManager.h"
 
 using namespace std;
 
@@ -24,16 +25,15 @@ public:
 private:
 	WindowManager windowManager;
 	TextureManager tex;
+	ConfigManager config;
 
-	float lerp(float music_offset);
+	float lerp(float s, float e, float t);
 
 	sf::Sprite m_sprite;
 
 	float m_sec;
 	sf::Color m_color;
 
-	//”»’è”ÍˆÍ
-	float m_j_perfect;
-	float m_j_great;
-	float m_j_good;
+	sf::Shader m_shad;
+	sf::RenderStates m_state;
 };

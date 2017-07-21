@@ -15,13 +15,16 @@ GameScene::~GameScene()
 void GameScene::initialize()
 {
 	m_game_state = 0;
-	m_start_margin = 3.0f;
 
 	m_score = 0;
 	m_perfect = 0;
 	m_maxcombo = 0;
 
 	m_combo = 0;
+
+	//音楽ファイル読み込み
+	string folder_name = musicManager.getFolderList(config.getNowMusic(config.Num));
+	m_music.Load(folder_name, "data/music/" + folder_name + "/music.wav");
 
 	//cout << config.getNowMusic(config.Num) << endl;
 
@@ -36,21 +39,18 @@ void GameScene::initialize()
 
 	//判定ライン
 	m_judge_line.setTexture(tex.get("game_judge_line"));
-	m_judge_line.setPosition(0,900);
+	m_judge_line.setPosition(0, config.getLaneDistance());
+	m_judge_line.setOrigin(0, tex.get("game_judge_line").getSize().y / 2.f);
 
 	//スコア等の文字
 	//フォント
 	characterDisplay.setFont("Dosis", "data/font/Dosis-Light.ttf");
 	characterDisplay.setFont("tegaki", "data/font/851tegaki.ttf");
 	//文字
-	characterDisplay.setCharacter("score", "Dosis", to_string((int)m_score), sf::Vector2f(100, 770),160);
-	characterDisplay.setCharacter("combo", "Dosis", "x" + to_string((int)m_combo), sf::Vector2f(1600, 770),160);
+	characterDisplay.setCharacter("score", "Dosis", to_string((int)m_score), sf::Vector2f(100, 780),160);
+	characterDisplay.setCharacter("combo", "Dosis", "x" + to_string((int)m_combo), sf::Vector2f(1600, 780),160);
 	characterDisplay.setCharacter("title", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).music_name, sf::Vector2f(50, 0),75);
 	characterDisplay.setCharacter("artist", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).artist, sf::Vector2f(50, 100),60);
-
-	//音楽ファイル読み込み
-	string folder_name = musicManager.getFolderList(config.getNowMusic(config.Num));
-	m_music.Load(folder_name,"data/music/" + folder_name + "/music.wav");
 
 	pause.initialize();
 	supportLine.initialize();
@@ -110,18 +110,17 @@ void GameScene::playBefore() {
 void GameScene::playNow() {
 
 	//曲スタート
-	if (m_start_margin <= m_clock.getElapsedTime().asSeconds()) {
+	if (config.getStartMargin() <= m_clock.getElapsedTime().asSeconds()) {
 		m_music.start();//再生中は無効
 	}
 
-	int judge = m_note[0].judge(m_clock.getElapsedTime().asSeconds() - m_start_margin, keyJudge.getKeyColor());
+	int judge = m_note[0].judge(m_clock.getElapsedTime().asSeconds() - config.getStartMargin(), keyJudge.getKeyColor());
 	
 
 	//成功判定
 	if (judge != 0)
 	{
-		cout << judge << endl;
-		
+		//cout << judge << endl;
 		m_combo++;
 
 		switch (judge)
@@ -141,7 +140,7 @@ void GameScene::playNow() {
 	}
 
 	//画面外(ミス)判定
-	if (m_note[0].rangeOut(m_clock.getElapsedTime().asSeconds() - m_start_margin))
+	if (m_note[0].rangeOut(m_clock.getElapsedTime().asSeconds() - config.getStartMargin()))
 	{
 		//コンボ中断と更新
 		m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
@@ -151,7 +150,7 @@ void GameScene::playNow() {
 
 	for (auto& it : m_note)
 	{
-		it.update(m_clock.getElapsedTime().asSeconds() - m_start_margin);
+		it.update(m_clock.getElapsedTime().asSeconds() - config.getStartMargin());
 	}
 
 	supportLine.update();

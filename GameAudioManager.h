@@ -17,6 +17,7 @@ public:
 	void pause();
 	void stop();
 	float getOffset();
+	float getDuration();
 
 	static map<string, std::shared_ptr<sf::Music>> m_music;
 	static string m_back_key;

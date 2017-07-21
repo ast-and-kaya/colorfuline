@@ -15,19 +15,18 @@ void Note::setNote(float sec, sf::Color color) {
 
 	m_sprite.setTexture(tex.get("game_note"));
 	m_sprite.setColor(color);
-	m_sprite.setOrigin(tex.get("game_note").getSize().x / 2.f, 0);
+	m_sprite.setOrigin(sf::Vector2f(tex.get("game_note").getSize()) / 2.f);
 
-	float frame = 1.f / 60.f;
-	m_j_perfect = frame * 2;
-	m_j_great = frame * 6;
-	m_j_good = frame * 10;
+	//m_shad.loadFromFile("data/shader/note.frag", sf::Shader::Fragment);
+	//m_shad.setParameter("tex", tex.get("game_note"));
+	//m_state.shader = &m_shad;
 }
 
 void Note::update(float music_offset) {
-	sf::Vector2f pos(1920 / 2.f, lerp(music_offset));
+	sf::Vector2f pos(1920 / 2.f, lerp(0, config.getLaneDistance(), -1 * (m_sec - music_offset) + 1));
 	m_sprite.setPosition(pos);
-	float t = pos.y / 900;
-	//m_sprite.setScale((1 - t)*0 + t * 1, (1 - t)*0.2 + t * 1);
+	float t = pos.y / config.getLaneDistance();
+	m_sprite.setScale((1 - t)*0.1 + t * 1, (1 - t)*0.5 + t * 1);
 }
 
 void Note::render() {
@@ -40,26 +39,25 @@ int Note::judge(float sec, sf::Color color) { // 0:miss 1:perfect 2:great 3:good
 
 	if (m_color == color)
 	{
-		if (abs(m_sec - sec) <= m_j_perfect / 2.f) return 1;
-		if (abs(m_sec - sec) <= m_j_great / 2.f) return 2;
-		if (abs(m_sec - sec) <= m_j_good / 2.f) return 3;
+		if (abs(m_sec - sec) <= config.getJudgeFrame(0) / 2.f) return 1;//perfect
+		if (abs(m_sec - sec) <= config.getJudgeFrame(1) / 2.f) return 2;//great
+		if (abs(m_sec - sec) <= config.getJudgeFrame(2) / 2.f) return 3;//good
 	}
-
 	
 	return 0;
 }
 
 bool Note::rangeOut(float sec)
 {
-	return (sec > m_sec + m_j_good) ? true : false;
+	return (sec > m_sec + config.getJudgeFrame(2)) ? true : false;
 }
 
 float Note::getSec() {
 	return m_sec;
 }
 
-float Note::lerp(float music_offset)
+float Note::lerp(float s, float e, float t)
 {
-	float f = 900 + (-1)*((m_sec - music_offset) * 900 * 1.5f);
-	return f;
+	t *= t * (t < 0 ? -1 : 1);
+	return (1 - t) * s + t * e;
 }
