@@ -32,6 +32,7 @@ private:
 	ConfigManager config;
 	ScoreManager scoreManager;
 	TextureManager tex;
+	CharacterDisplay characterDisplay;
 
 	//フォント
 	sf::Font m_font_list;
@@ -53,16 +54,9 @@ private:
 
 	//曲情報
 	sf::Sprite m_use_color[7];//使用色
-	//曲名
-	sf::Text m_text_title;
-	//アーティスト
-	sf::Text m_text_artist;
-	//レベル
-	sf::Text m_text_level;
 	//サムネイル
 	sf::Texture m_tex_jacket;
 	sf::Sprite m_jacket;
-	sf::Sprite m_jacket_cover;
 	sf::RenderStates m_state_jacket;
 	sf::Shader m_shad_jacket;
 

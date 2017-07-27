@@ -17,12 +17,9 @@ void CharacterDisplay::setFont(string key, string path)
 	m_font[key].loadFromFile(path);
 }
 
-void CharacterDisplay::render()
+void CharacterDisplay::render(string key)
 {
-	for (auto& it : m_text)
-	{
-		windowManager.getWindow()->draw(it.second);
-	}
+	windowManager.getWindow()->draw(m_text[key]);
 }
 
 void CharacterDisplay::setCharacter(string key, string font, string chara, sf::Vector2f pos, int size, sf::Color color)
@@ -37,5 +34,5 @@ void CharacterDisplay::setCharacter(string key, string font, string chara, sf::V
 
 void CharacterDisplay::changeString(string key, string chara)
 {
-	m_text[key].setString(chara);
+	m_text[key].setString(cv.from_bytes(chara));
 }

@@ -13,7 +13,7 @@ public:
 	CharacterDisplay();
 	~CharacterDisplay();
 
-	void render();
+	void render(string key);
 
 	void setFont(string key,string path);
 	void setCharacter(string key, string font, string chara, sf::Vector2f pos, int size = 80, sf::Color color = sf::Color(255,255,255,255));

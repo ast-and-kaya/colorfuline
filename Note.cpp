@@ -16,10 +16,6 @@ void Note::setNote(float sec, sf::Color color) {
 	m_sprite.setTexture(tex.get("game_note"));
 	m_sprite.setColor(color);
 	m_sprite.setOrigin(sf::Vector2f(tex.get("game_note").getSize()) / 2.f);
-
-	//m_shad.loadFromFile("data/shader/note.frag", sf::Shader::Fragment);
-	//m_shad.setParameter("tex", tex.get("game_note"));
-	//m_state.shader = &m_shad;
 }
 
 void Note::update(float music_offset) {

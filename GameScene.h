@@ -12,6 +12,7 @@
 #include "KeyJudge.h"
 #include "SupportLine.h"
 #include "CharacterDisplay.h"
+#include "GameTimer.h"
 
 #include "Note.h"
 #include "Pause.h"
@@ -44,6 +45,8 @@ private:
 	Pause pause;
 	SupportLine supportLine;
 	CharacterDisplay characterDisplay;
+	GameTimer timer;
+
 
 	//ƒQ[ƒ€‚Ìó‘Ô@0:before 1:now 2:after 3:stop
 	int m_game_state;
@@ -52,9 +55,9 @@ private:
 	int m_perfect;
 	int m_maxcombo;
 
-	int m_combo;
+	int m_note_number;
 
-	sf::Clock m_clock;
+	int m_combo;
 
 	vector<Note> m_note;
 

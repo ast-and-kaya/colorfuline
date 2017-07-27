@@ -10,6 +10,8 @@
 #include "ConfigManager.h"
 #include "ScoreManager.h"
 
+#include "CharacterDisplay.h"
+
 using namespace std;
 
 class ResultScene :
@@ -23,16 +25,19 @@ public:
 	Scene* update();
 	void render();
 
-	void setScereData(int score, int combo, int perfect);
+	void setScereData(int score, int combo, int perfect, int note);
 
 private:
 	WindowManager windowManager;
 	KeyManager keyManager;
 	MusicManager musicManager;
 	ConfigManager config;
+	CharacterDisplay characterDisplay;
 
 	static int m_result_score;
 	static int m_result_combo;
 	static int m_result_perfect;
+
+	static int m_result_note_number;
 
 };

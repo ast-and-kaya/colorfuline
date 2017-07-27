@@ -1,8 +1,7 @@
 #pragma once
 #include "WindowManager.h"
-#include "SFML\Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include "TextureManager.h"
-#include <iostream>
 #include "ConfigManager.h"
 
 using namespace std;
@@ -33,7 +32,4 @@ private:
 
 	float m_sec;
 	sf::Color m_color;
-
-	sf::Shader m_shad;
-	sf::RenderStates m_state;
 };
