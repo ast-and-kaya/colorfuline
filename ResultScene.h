@@ -12,6 +12,8 @@
 
 #include "CharacterDisplay.h"
 
+#include "SceneMovement.h"
+
 using namespace std;
 
 class ResultScene :
@@ -33,6 +35,7 @@ private:
 	MusicManager musicManager;
 	ConfigManager config;
 	CharacterDisplay characterDisplay;
+	SceneMovement sceneMovement;
 
 	static int m_result_score;
 	static int m_result_combo;

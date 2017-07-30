@@ -39,11 +39,15 @@ void ResultScene::initialize()
 	characterDisplay.setCharacter("retry", "Dosis", "Retry", sf::Vector2f(1200, 900), 100);
 	characterDisplay.setCharacter("next", "Dosis", "Next", sf::Vector2f(1500, 900), 100);
 
+	//ƒuƒ‰ƒbƒN
+	sceneMovement.initialize();
+	sceneMovement.Out();
 }
 
 Scene* ResultScene::update()
 {
 	Scene* next = this;
+	sceneMovement.update();
 
 	if (keyManager.push_key(sf::Keyboard::Return))
 	{
@@ -57,6 +61,8 @@ void ResultScene::render()
 {
 	characterDisplay.render("title");
 	characterDisplay.render("artist");
+
+	sceneMovement.render();
 }
 
 

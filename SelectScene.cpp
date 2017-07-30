@@ -73,12 +73,18 @@ void SelectScene::initialize()
 	m_state_jacket.shader = &m_shad_jacket;
 
 	m_bf_music = -1;
+
+	sceneMovement.initialize();
+	sceneMovement.Out();
 }
 
 
 Scene* SelectScene::update()
 {
 	Scene* next = this;
+
+	//ブラック
+	sceneMovement.update();
 
 	//曲選択
 	if (keyManager.push_key(sf::Keyboard::Up) && config.getNowMusic(config.Num) > 0) {
@@ -104,6 +110,7 @@ Scene* SelectScene::update()
 		m_list[i].setColor(sf::Color(255,255,255,alpha));
 	}
 	m_list[config.getNowMusic(config.Num)].setColor(sf::Color::Black);
+
 	//選択背景
 	static sf::Clock t;
 	m_shad_list_bg.setParameter("t", t.getElapsedTime().asMilliseconds());
@@ -140,8 +147,20 @@ Scene* SelectScene::update()
 	m_shad_jacket.setParameter("t_color", m_diff_color[config.getNowMusic(config.Diff)]);
 
 	//シーン移動
-	if (keyManager.push_key(sf::Keyboard::Return)) next = new GameScene;
-	if (keyManager.push_key(sf::Keyboard::Escape)) next = new TitleScene;
+	static bool scene;
+	if (keyManager.push_key(sf::Keyboard::Return)) {
+		sceneMovement.In();
+		scene = true;
+	}
+	if (keyManager.push_key(sf::Keyboard::Escape)) {
+		sceneMovement.In();
+		scene = false;
+	}
+
+	if (sceneMovement.getAlpha() == 255) {
+		if (scene) next = new GameScene;
+		if (!scene) next = new TitleScene;
+	}
 
 	return next;
 }
@@ -167,6 +186,7 @@ void SelectScene::render()
 	characterDisplay.render("artist");
 	characterDisplay.render("level");
 	
+	sceneMovement.render();
 }
 
 void SelectScene::setColorBar(const int* a) {

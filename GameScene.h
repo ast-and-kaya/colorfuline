@@ -16,6 +16,7 @@
 
 #include "Note.h"
 #include "Pause.h"
+#include "SceneMovement.h"
 
 using namespace std;
 
@@ -46,6 +47,7 @@ private:
 	SupportLine supportLine;
 	CharacterDisplay characterDisplay;
 	GameTimer timer;
+	SceneMovement sceneMovement;
 
 
 	//ƒQ[ƒ€‚Ìó‘Ô@0:before 1:now 2:after 3:stop

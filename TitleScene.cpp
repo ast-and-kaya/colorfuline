@@ -39,12 +39,6 @@ void TitleScene::initialize()
 	m_black_alpha = 255;
 	m_black.setColor(sf::Color(0, 0, 0, m_black_alpha));
 
-	//エンター押でフェードインする黒
-	m_enter_black.setTexture(tex.get("black"));
-	m_enter_black_alpha = 0;
-	m_enter_black.setColor(sf::Color(0, 0, 0, m_enter_black_alpha));
-	m_enter_black_alpha_tf = false;
-
 	//文字
 	font.loadFromFile("data/font/Dosis-Light.ttf");
 	//start
@@ -65,6 +59,9 @@ void TitleScene::initialize()
 	m_select_posx[0] = 1600;
 	m_select_posx[1] = 1090;
 	m_select.setPosition(m_select_posx[m_select_tf],820);
+
+	//シーン移動
+	sceneMovement.initialize(0);
 }
 
 Scene* TitleScene::update()
@@ -99,20 +96,17 @@ Scene* TitleScene::update()
 	{
 		m_black_alpha = 0;//全面黒を透明に
 		if (m_select_tf) {//start
-			m_enter_black_alpha_tf = true;
+			sceneMovement.In();
 		}
 		else {//exit
 			windowManager.getWindow()->close();
 		}
 	}
+	
+	sceneMovement.update();
 
 	//タイトルフェード後にシーン移行
-	if (m_enter_black_alpha_tf)
-	{
-		m_enter_black_alpha += 5;
-		m_enter_black.setColor(sf::Color(0, 0, 0, m_enter_black_alpha));
-	}
-	if (m_enter_black_alpha == 255)
+	if (sceneMovement.getAlpha() == 255)
 	{
 		next = new SelectScene;
 	}
@@ -130,5 +124,5 @@ void TitleScene::render()
 	windowManager.getWindow()->draw(m_select);
 	windowManager.getWindow()->draw(m_black);
 	windowManager.getWindow()->draw(m_ring, m_rs_ring);
-	windowManager.getWindow()->draw(m_enter_black);
+	sceneMovement.render();
 }

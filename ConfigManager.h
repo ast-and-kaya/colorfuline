@@ -26,9 +26,11 @@ public:
 	static sf::Vector2u m_window_size;
 
 	//固定値
-	int getLaneDistance();
-	float getStartMargin();
-	float getJudgeFrame(int f);
+	int getLaneDistance();//レーン距離
+	float getStartMargin();//曲開始前のマージン
+	float getJudgeFrame(int f);//判定時間
+	int getBlackTime();//暗転時間
+
 
 private:
 	static int m_music_num;
@@ -37,5 +39,7 @@ private:
 	static int m_lane_distance;
 	static float m_start_margin;
 	static float m_judge_frame[3];// 1:perfect 2:great 3:good
+
+	static int m_black_time;
 };
 

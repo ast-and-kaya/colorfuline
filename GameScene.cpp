@@ -58,6 +58,8 @@ void GameScene::initialize()
 	pause.initialize();
 	supportLine.initialize();
 	timer.initialize();
+	sceneMovement.initialize();
+	sceneMovement.Out();
 }
 
 
@@ -67,6 +69,7 @@ Scene* GameScene::update()
 
 	keyJudge.update();
 	timer.update();
+	sceneMovement.update();
 
 	switch (m_game_state)
 	{
@@ -95,14 +98,14 @@ void GameScene::render()
 {
 	supportLine.render();
 
-	//判定ライン
-	windowManager.getWindow()->draw(m_judge_line);
-
 	//文字
 	characterDisplay.render("score");
 	characterDisplay.render("combo");
 	characterDisplay.render("title");
 	characterDisplay.render("artist");
+
+	//判定ライン
+	windowManager.getWindow()->draw(m_judge_line);
 
 	//ノート
 	for (auto& it: m_note)
@@ -110,8 +113,11 @@ void GameScene::render()
 		it.render();
 	}
 
+	sceneMovement.render();
+
 	//ポーズ画面
 	if(m_game_state == 3) pause.render();
+
 }
 
 void GameScene::playBefore() {
@@ -176,6 +182,7 @@ void GameScene::playNow() {
 	//アフター移動
 	if (m_note.size() == 0 || keyManager.push_key(sf::Keyboard::Return)){
 		m_music.stop();
+		sceneMovement.In();
 		m_game_state = 2;//暫定
 	}
 
@@ -188,11 +195,11 @@ void GameScene::playNow() {
 }
 
 void GameScene::playAfter(Scene*& n) {
-	m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
 
 	//リザルト
-	if (keyManager.push_key(sf::Keyboard::Return))
+	if (sceneMovement.getAlpha() == 255)
 	{
+		m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
 		ResultScene result;
 		result.setScereData(m_score, m_maxcombo, m_perfect, m_note_number);
 		n = new ResultScene;

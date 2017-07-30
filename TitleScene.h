@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "SelectScene.h"
+#include "SceneMovement.h"
 
 class TitleScene:
 	public Scene
@@ -20,6 +21,7 @@ private:
 	WindowManager windowManager;
 	KeyManager keyManager;
 	TextureManager tex;
+	SceneMovement sceneMovement;
 
 	sf::Sprite m_bg;
 
@@ -39,11 +41,6 @@ private:
 	//フェード用　黒
 	sf::Sprite m_black;
 	int m_black_alpha;
-
-	//シーン移動用　黒　
-	sf::Sprite m_enter_black;
-	int m_enter_black_alpha;
-	bool m_enter_black_alpha_tf;
 
 	//文字
 	sf::Font font;

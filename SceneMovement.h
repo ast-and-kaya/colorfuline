@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include "TextureManager.h"
 #include "WindowManager.h"
+#include "ConfigManager.h"
 #include <iostream>
 
 using namespace std;
@@ -12,19 +13,25 @@ public:
 	SceneMovement();
 	~SceneMovement();
 
-	void initialize();
+	void initialize(int alpha = 255);
 
-	float update();
+	void update();
 
-	void In();
-	void Out();
+	void render();
+
+	void In();//ìßÅ®çï
+	void Out();//çïÅ®ìß
+
+	int getAlpha();
 
 private:
 	WindowManager windowManager;
 	TextureManager tex;
+	ConfigManager config;
 
-	float m_alpha;
+	sf::Sprite m_sprite;
 
+	int m_alpha; // 0~255
 	bool m_in_out;
 };
 

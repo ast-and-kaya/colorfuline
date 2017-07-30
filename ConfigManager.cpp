@@ -8,6 +8,8 @@ int ConfigManager::m_lane_distance;
 float ConfigManager::m_start_margin;
 float ConfigManager::m_judge_frame[3];
 
+int ConfigManager::m_black_time;
+
 ConfigManager::ConfigManager()
 {
 }
@@ -39,12 +41,14 @@ void ConfigManager::initialize()
 
 	//マジックナンバー
 	m_lane_distance = 940;//レーンの距離
-	m_start_margin = 3.0f;//曲開始前のマージン
+	m_start_margin = 5.0f;//
 	//判定時間
 	float frame = 1.f / 60.f;
 	m_judge_frame[0] = frame * 2;//perfect
 	m_judge_frame[1] = frame * 6;//great
 	m_judge_frame[2] = frame * 10;//good
+	//暗転スピード
+	m_black_time = 5;
 
 }
 
@@ -73,4 +77,9 @@ float ConfigManager::getStartMargin()
 float ConfigManager::getJudgeFrame(int f)
 {
 	return m_judge_frame[f];
+}
+
+int ConfigManager::getBlackTime()
+{
+	return m_black_time;
 }

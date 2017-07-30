@@ -8,6 +8,7 @@
 #include <codecvt>
 
 #include "ScoreManager.h"
+#include "SceneMovement.h"
 
 using namespace std;
 
@@ -33,6 +34,7 @@ private:
 	ScoreManager scoreManager;
 	TextureManager tex;
 	CharacterDisplay characterDisplay;
+	SceneMovement sceneMovement;
 
 	//ƒtƒHƒ“ƒg
 	sf::Font m_font_list;

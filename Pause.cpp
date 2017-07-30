@@ -32,10 +32,15 @@ void Pause::initialize()
 		m_menu[i].setCharacterSize(130);
 		m_menu[i].setPosition(sf::Vector2f(0,i*180) + TextPostion);
 	}
+
+	sceneMovement.initialize(0);
 }
 
 int Pause::update(Scene*& n)
 {
+	//ブラック
+	sceneMovement.update();
+
 	//カーソル
 	if (keyManager.push_key(sf::Keyboard::Up)) m_select_cursor -= (m_select_cursor > 0) ? 1 : 0;
 	if (keyManager.push_key(sf::Keyboard::Down)) m_select_cursor += (m_select_cursor < 2) ? 1 : 0;
@@ -46,6 +51,7 @@ int Pause::update(Scene*& n)
 	//cout << m_select_cursor << endl;
 
 	//選択
+	static bool scene;
 	if (keyManager.push_key(sf::Keyboard::Return))
 	{
 		switch (m_select_cursor)
@@ -54,12 +60,19 @@ int Pause::update(Scene*& n)
 			return 1;
 			break;
 		case 1: //リトライ
-			n = new GameScene;
+			sceneMovement.In();
+			scene = true;
 			break;
 		case 2: //セレクト
-			n = new SelectScene;
+			sceneMovement.In();
+			scene = false;
 			break;
 		}
+	}
+	if (sceneMovement.getAlpha() == 255)
+	{
+		if (scene) n = new GameScene;
+		if (!scene) n = new SelectScene;
 	}
 
 	return 3;
@@ -72,4 +85,5 @@ void Pause::render()
 	{
 		windowManager.getWindow()->draw(m_menu[i]);
 	}
+	sceneMovement.render();
 }

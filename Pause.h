@@ -4,6 +4,7 @@ class Scene;
 #include "WindowManager.h"
 #include <SFML\Graphics.hpp> 
 #include "TextureManager.h"
+#include "SceneMovement.h"
 
 class Pause
 {
@@ -19,6 +20,7 @@ private:
 	KeyManager keyManager;
 	WindowManager windowManager;
 	TextureManager tex;
+	SceneMovement sceneMovement;
 
 	int m_select_cursor;
 
