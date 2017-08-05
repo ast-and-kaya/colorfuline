@@ -15,7 +15,7 @@ public:
 private:
 	KeyManager keyManager;
 
-	sf::Color m_color;
+	static sf::Color m_key_color;
 
 };
 

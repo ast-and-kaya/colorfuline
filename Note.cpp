@@ -16,6 +16,7 @@ void Note::setNote(float sec, sf::Color color) {
 	m_sprite.setTexture(tex.get("game_note"));
 	m_sprite.setColor(color);
 	m_sprite.setOrigin(sf::Vector2f(tex.get("game_note").getSize()) / 2.f);
+	m_sprite.setPosition(-100,-100);
 }
 
 void Note::update(float music_offset) {

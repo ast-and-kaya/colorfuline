@@ -1,0 +1,48 @@
+#pragma once
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <iostream>
+#include <complex>
+#include <valarray>
+#include <math.h>
+
+#include "WindowManager.h"
+
+const double PI = 3.141592653589793238460 ;
+
+using namespace std ;
+
+typedef complex<double> Complex;
+typedef valarray<Complex> CArray;
+
+class FFT
+{
+public:
+	FFT();
+	~FFT();
+
+	void init(string const& _path);
+
+	void fft(CArray &x) ;
+	void update(float is_time = 0);
+
+	vector<int> getData();
+
+private:
+	WindowManager windowManger;
+
+	sf::SoundBuffer buffer ;
+
+	vector<Complex> sample ;
+	vector<float> window ;
+	CArray bin ;
+	
+	int sampleRate ;
+	int sampleCount ;
+	int bufferSize ;
+	int mark ;
+
+	vector<int> data;
+};
+

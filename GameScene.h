@@ -13,6 +13,8 @@
 #include "SupportLine.h"
 #include "CharacterDisplay.h"
 #include "GameTimer.h"
+#include "JudgeLine.h"
+#include "VisualEffect.h"
 
 #include "Note.h"
 #include "Pause.h"
@@ -48,7 +50,8 @@ private:
 	CharacterDisplay characterDisplay;
 	GameTimer timer;
 	SceneMovement sceneMovement;
-
+	JudgeLine judgeLine;
+	VisualEffect visualEffect;
 
 	//ÉQÅ[ÉÄÇÃèÛë‘Å@0:before 1:now 2:after 3:stop
 	int m_game_state;
@@ -63,5 +66,5 @@ private:
 
 	vector<Note> m_note;
 
-	sf::Sprite m_judge_line;
+	bool m_black_zindex;
 };

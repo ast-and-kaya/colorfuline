@@ -13,6 +13,7 @@ GameTimer::~GameTimer()
 
 void GameTimer::initialize(float set)
 {
+
 	m_time = 0;
 
 	m_now_time = 0;
@@ -30,7 +31,7 @@ void GameTimer::update()
 		 m_time += ((m_now_time - m_bf_time)%1000)/1000.f;
 	}
 
-	cout << m_time << endl;
+	//cout << m_time << endl;
 }
 
 float GameTimer::getTime()

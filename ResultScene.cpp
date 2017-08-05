@@ -51,6 +51,8 @@ Scene* ResultScene::update()
 
 	if (keyManager.push_key(sf::Keyboard::Return))
 	{
+		SelectScene selectScene;
+		selectScene.setBlackZindex();
 		next = new SelectScene;
 	}
 

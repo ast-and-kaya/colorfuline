@@ -25,6 +25,8 @@ public:
 
 	void setColorBar(const int* a);
 
+	void setBlackZindex();
+
 private:
 	wstring_convert<codecvt_utf8<wchar_t>, wchar_t> cv;
 	WindowManager windowManager;
@@ -64,4 +66,7 @@ private:
 
 	//曲変更感知
 	int m_bf_music;//前フレーム曲番号
+
+	//前のシーン
+	static bool m_black_zindex;
 };

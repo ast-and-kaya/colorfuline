@@ -24,9 +24,13 @@ void GameScene::initialize()
 
 	m_combo = 0;
 
+	m_black_zindex = false;
+
 	//音楽ファイル読み込み
 	string folder_name = musicManager.getFolderList(config.getNowMusic(config.Num));
 	m_music.Load(folder_name, "data/music/" + folder_name + "/music.wav");
+
+	visualEffect.initialize("data/music/" + folder_name + "/music.wav");
 
 	//cout << config.getNowMusic(config.Num) << endl;
 
@@ -35,15 +39,13 @@ void GameScene::initialize()
 	sf::Color c[3] = {sf::Color::Red,sf::Color::Green,sf::Color::Blue};
 	for (int i = 0; i < 300; i++) {
 		m_note.push_back(Note());
-		m_note[i].setNote(i*(60.f/162.f), c[i%3]);
+		m_note[i].setNote(i*(60.f/185.f) + 0.1, c[i%3]);
 
 		m_note_number++;
 	}
 
 	//判定ライン
-	m_judge_line.setTexture(tex.get("game_judge_line"));
-	m_judge_line.setPosition(0, config.getLaneDistance());
-	m_judge_line.setOrigin(0, tex.get("game_judge_line").getSize().y / 2.f);
+	judgeLine.initialize();
 
 	//スコア等の文字
 	//フォント
@@ -57,9 +59,8 @@ void GameScene::initialize()
 
 	pause.initialize();
 	supportLine.initialize();
-	timer.initialize();
 	sceneMovement.initialize();
-	sceneMovement.Out();
+	sceneMovement.In();
 }
 
 
@@ -70,6 +71,8 @@ Scene* GameScene::update()
 	keyJudge.update();
 	timer.update();
 	sceneMovement.update();
+	judgeLine.update();
+	visualEffect.updata(timer.getTime() - config.getStartMargin());
 
 	switch (m_game_state)
 	{
@@ -96,7 +99,10 @@ Scene* GameScene::update()
 
 void GameScene::render()
 {
-	supportLine.render();
+	//背景
+	visualEffect.render();
+
+	//supportLine.render();
 
 	//文字
 	characterDisplay.render("score");
@@ -104,8 +110,10 @@ void GameScene::render()
 	characterDisplay.render("title");
 	characterDisplay.render("artist");
 
+	if (!m_black_zindex)sceneMovement.render();
+
 	//判定ライン
-	windowManager.getWindow()->draw(m_judge_line);
+	judgeLine.render();
 
 	//ノート
 	for (auto& it: m_note)
@@ -113,7 +121,7 @@ void GameScene::render()
 		it.render();
 	}
 
-	sceneMovement.render();
+	if (m_black_zindex)sceneMovement.render();
 
 	//ポーズ画面
 	if(m_game_state == 3) pause.render();
@@ -121,7 +129,12 @@ void GameScene::render()
 }
 
 void GameScene::playBefore() {
-	m_game_state = 1;
+	if (judgeLine.pre())
+	{
+		sceneMovement.Out();
+		timer.initialize();
+		m_game_state = 1;
+	}
 }
 
 void GameScene::playNow() {
@@ -172,7 +185,7 @@ void GameScene::playNow() {
 	supportLine.update();
 
 	//音ズレ
-	//float f = (timer.getTime() - m_start_margin) - m_music.getOffset();
+	float f = (timer.getTime() - config.getStartMargin()) - m_music.getOffset();
 	//cout << f << endl;
 
 	//スコア表示更新
@@ -183,6 +196,7 @@ void GameScene::playNow() {
 	if (m_note.size() == 0 || keyManager.push_key(sf::Keyboard::Return)){
 		m_music.stop();
 		sceneMovement.In();
+		m_black_zindex = true;
 		m_game_state = 2;//暫定
 	}
 

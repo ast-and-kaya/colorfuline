@@ -1,10 +1,10 @@
 #include "SelectScene.h"
 
+bool SelectScene::m_black_zindex;
 
 SelectScene::SelectScene()
 {
 }
-
 
 SelectScene::~SelectScene()
 {
@@ -85,6 +85,7 @@ Scene* SelectScene::update()
 
 	//ブラック
 	sceneMovement.update();
+	if (sceneMovement.getAlpha() == 0) m_black_zindex = false;
 
 	//曲選択
 	if (keyManager.push_key(sf::Keyboard::Up) && config.getNowMusic(config.Num) > 0) {
@@ -125,17 +126,18 @@ Scene* SelectScene::update()
 		config.setNowMusicDiff(config.getNowMusic(config.Diff) - 1);
 	}
 
+	//使用色
+	if (config.getNowMusic(config.Diff) == 0) setColorBar(musicManager.getItem(config.getNowMusic(config.Num)).easy_color);
+	if (config.getNowMusic(config.Diff) == 1) setColorBar(musicManager.getItem(config.getNowMusic(config.Num)).normal_color);
+	if (config.getNowMusic(config.Diff) == 2) setColorBar(musicManager.getItem(config.getNowMusic(config.Num)).hard_color);
+	//文字
+	characterDisplay.changeString("title", musicManager.getItem(config.getNowMusic(config.Num)).music_name);//曲名
+	characterDisplay.changeString("artist", musicManager.getItem(config.getNowMusic(config.Num)).artist);//アーティスト
+	characterDisplay.changeString("level", "Lv." + to_string(musicManager.getItem(config.getNowMusic(config.Num)).level[config.getNowMusic(config.Diff)]));//レベル
+
 	//曲情報更新
 	if (m_bf_music != config.getNowMusic(config.Num))
 	{
-		//使用色
-		if (config.getNowMusic(config.Diff) == 0) setColorBar(musicManager.getItem(config.getNowMusic(config.Num)).easy_color);
-		if (config.getNowMusic(config.Diff) == 1) setColorBar(musicManager.getItem(config.getNowMusic(config.Num)).normal_color);
-		if (config.getNowMusic(config.Diff) == 2) setColorBar(musicManager.getItem(config.getNowMusic(config.Num)).hard_color);
-		//文字
-		characterDisplay.changeString("title", musicManager.getItem(config.getNowMusic(config.Num)).music_name);//曲名
-		characterDisplay.changeString("artist", musicManager.getItem(config.getNowMusic(config.Num)).artist);//アーティスト
-		characterDisplay.changeString("level", "Lv." + to_string(musicManager.getItem(config.getNowMusic(config.Num)).level[config.getNowMusic(config.Diff)]));//レベル
 		//サムネイル
 		string s = musicManager.getFolderList(config.getNowMusic(config.Num));
 		if (!m_tex_jacket.loadFromFile("data/music/" + s + "/jacket.png")) {
@@ -181,12 +183,15 @@ void SelectScene::render()
 	{
 		windowManager.getWindow()->draw(m_use_color[i]);
 	}
+
+	if (m_black_zindex) sceneMovement.render();
+
 	//文字
 	characterDisplay.render("title");
 	characterDisplay.render("artist");
 	characterDisplay.render("level");
 	
-	sceneMovement.render();
+	if (!m_black_zindex) sceneMovement.render();
 }
 
 void SelectScene::setColorBar(const int* a) {
@@ -199,4 +204,9 @@ void SelectScene::setColorBar(const int* a) {
 			a[i] * 255
 		));
 	}
+}
+
+void SelectScene::setBlackZindex()
+{
+	m_black_zindex = true;
 }
