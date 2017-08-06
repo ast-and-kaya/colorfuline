@@ -11,32 +11,28 @@ GameTimer::~GameTimer()
 {
 }
 
-void GameTimer::initialize(float set)
+void GameTimer::initialize()
 {
 
 	m_time = 0;
 
-	m_now_time = 0;
-	m_bf_time = 0;
+	m_first_time = timeGetTime();
+
+	m_stop_be = 0;
 
 	m_stopped = false;
 }
 
 void GameTimer::update()
 {
-	m_bf_time = m_now_time;
-	m_now_time = timeGetTime();
+	m_time = (timeGetTime() - m_first_time) / 1000.f;
 
-	if (!m_stopped) {
-		 m_time += ((m_now_time - m_bf_time)%1000)/1000.f;
-	}
-
-	//cout << m_time << endl;
+	cout << (m_stopped ? m_stop_be : m_time + m_stop_be) << endl;
 }
 
 float GameTimer::getTime()
 {
-	return m_time;
+	return m_stopped ? m_stop_be : m_time + m_stop_be;
 }
 
 bool GameTimer::getState()
@@ -47,14 +43,17 @@ bool GameTimer::getState()
 void GameTimer::start()
 {
 	m_stopped = false;
+	m_first_time = timeGetTime();
 }
 
 void GameTimer::pouse()
 {
+	m_stop_be += m_time;
 	m_stopped = true;
 }
 
 void GameTimer::reset()
 {
-	m_time = 0;
+	m_first_time = timeGetTime();
+	m_stop_be = 0;
 }

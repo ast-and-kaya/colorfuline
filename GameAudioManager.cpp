@@ -23,7 +23,7 @@ void GameAudioManager::Load(string key, string path)
 	}
 }
 
-void GameAudioManager::start( int volume, bool loop)
+void GameAudioManager::start( float volume, bool loop)
 {
 	if (m_music[m_back_key]->getStatus() != sf::SoundSource::Status::Playing) {
 		m_music[m_back_key]->play();

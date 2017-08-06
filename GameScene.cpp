@@ -37,9 +37,9 @@ void GameScene::initialize()
 	//ノート追加
 	//ファイルの仕様と拡張子を決めておく
 	sf::Color c[3] = {sf::Color::Red,sf::Color::Green,sf::Color::Blue};
-	for (int i = 0; i < 300; i++) {
+	for (int i = 0; i < 1000; i++) {
 		m_note.push_back(Note());
-		m_note[i].setNote(i*(60.f/185.f) + 0.1, c[i%3]);
+		m_note[i].setNote(i*(60.f/162.f) + 0.1, c[i%3]);
 
 		m_note_number++;
 	}
@@ -72,7 +72,7 @@ Scene* GameScene::update()
 	timer.update();
 	sceneMovement.update();
 	judgeLine.update();
-	visualEffect.updata(timer.getTime() - config.getStartMargin());
+	visualEffect.updata(m_music.getOffset());
 
 	switch (m_game_state)
 	{

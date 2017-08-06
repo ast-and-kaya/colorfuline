@@ -2,6 +2,9 @@
 #include "FFT.h"
 #include <SFML/Audio.hpp>
 #include "WindowManager.h"
+#include "SoundValue.h"
+#include "TextureManager.h"
+#include "ConfigManager.h"
 
 #include <iostream>
 
@@ -19,12 +22,17 @@ public:
 
 private:
 	WindowManager windowManager;
+	ConfigManager config;
+	TextureManager tex;
 
 	FFT fft;
-
 	vector<int> data;
-
 	sf::VertexArray VA2;
+
+	SoundValue soundValue;
+	sf::RenderStates state;
+	sf::Shader shader;
+	sf::Sprite m_sprite;
 
 };
 

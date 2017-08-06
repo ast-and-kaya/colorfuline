@@ -23,7 +23,7 @@ void Note::update(float music_offset) {
 	sf::Vector2f pos(1920 / 2.f, lerp(0, config.getLaneDistance(), -1 * (m_sec - music_offset) + 1));
 	m_sprite.setPosition(pos);
 	float t = pos.y / config.getLaneDistance();
-	m_sprite.setScale((1 - t)*0.1 + t * 1, (1 - t)*0.5 + t * 1);
+	m_sprite.setScale((1 - t)*0.05 + t * 1, (1 - t)*0.5 + t * 1);
 }
 
 void Note::render() {

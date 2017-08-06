@@ -12,7 +12,7 @@ public:
 	GameTimer();
 	~GameTimer();
 
-	void initialize(float set = 0);
+	void initialize();
 	void update();
 
 	float getTime();
@@ -25,8 +25,9 @@ public:
 private:
 	float m_time;
 
-	int m_now_time;
-	int m_bf_time;
+	int m_first_time;
+
+	float m_stop_be;
 
 	bool m_stopped;
 };
