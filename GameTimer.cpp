@@ -27,7 +27,7 @@ void GameTimer::update()
 {
 	m_time = (timeGetTime() - m_first_time) / 1000.f;
 
-	cout << (m_stopped ? m_stop_be : m_time + m_stop_be) << endl;
+	//cout << (m_stopped ? m_stop_be : m_time + m_stop_be) << endl;
 }
 
 float GameTimer::getTime()

@@ -33,6 +33,12 @@ private:
 	sf::Sprite m_sprite;
 	sf::Sprite m_sprite_sub;
 
+	float margin;//0~1
+	sf::RenderStates m_state;
+	sf::Shader m_shad;
+	float m_margin_f; // âÊñ ÉTÉCÉYÅ®1.0f
+	float m_margin_s; // 1.0f Å® 0.0f
+
 	int m_sub_color[3];
 
 	bool m_pre;
