@@ -36,10 +36,12 @@ void GameScene::initialize()
 
 	//ノート追加
 	//ファイルの仕様と拡張子を決めておく
-	sf::Color c[3] = {sf::Color::Red,sf::Color::Green,sf::Color::Blue};
+	sf::Color c[7] = { sf::Color::Red, sf::Color::Green, sf::Color::Blue,
+						sf::Color::Cyan, sf::Color::Magenta, sf::Color::Yellow,
+						sf::Color::White };
 	for (int i = 0; i < 1000; i++) {
 		m_note.push_back(Note());
-		m_note[i].setNote(i*(60.f/162.f) + 0.1, c[i%3]);
+		m_note[i].setNote(i*(60.f/162.f) + 0.1, c[rand()%3]);
 
 		m_note_number++;
 	}
@@ -57,6 +59,7 @@ void GameScene::initialize()
 	characterDisplay.setCharacter("title", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).music_name, sf::Vector2f(50, 0),75);
 	characterDisplay.setCharacter("artist", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).artist, sf::Vector2f(50, 100),60);
 
+	keyJudge.initialize();
 	pause.initialize();
 	supportLine.initialize();
 	sceneMovement.initialize();

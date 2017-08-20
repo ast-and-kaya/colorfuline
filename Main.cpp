@@ -12,7 +12,6 @@ using namespace std;
 
 int main()
 {
-
 	ConfigManager config;
 	config.DataLoading();
 	config.initialize();

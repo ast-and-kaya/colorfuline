@@ -8,6 +8,7 @@ public:
 	KeyJudge();
 	~KeyJudge();
 
+	void initialize();
 	void update();
 
 	sf::Color getKeyColor();
@@ -17,5 +18,6 @@ private:
 
 	static sf::Color m_key_color;
 
+	int m_cnt[3];//rgb
 };
 
