@@ -10,6 +10,8 @@ float ConfigManager::m_judge_frame[3];
 
 int ConfigManager::m_black_time;
 
+float ConfigManager::m_preview_fade;
+
 ConfigManager::ConfigManager()
 {
 }
@@ -49,7 +51,8 @@ void ConfigManager::initialize()
 	m_judge_frame[2] = frame * 10;//good
 	//暗転スピード
 	m_black_time = 5;
-
+	//プレビューのフェード秒数
+	m_preview_fade = 3.0f;
 }
 
 void ConfigManager::setNowMusicNum(int num) {
@@ -82,4 +85,9 @@ float ConfigManager::getJudgeFrame(int f)
 int ConfigManager::getBlackTime()
 {
 	return m_black_time;
+}
+
+float ConfigManager::getPreviewFade()
+{
+	return m_preview_fade;
 }

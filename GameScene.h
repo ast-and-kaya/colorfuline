@@ -15,6 +15,8 @@
 #include "GameTimer.h"
 #include "JudgeLine.h"
 #include "VisualEffect.h"
+#include "MusicGuide.h"
+#include "MusicScore.h"
 
 #include "Note.h"
 #include "Pause.h"
@@ -52,6 +54,8 @@ private:
 	SceneMovement sceneMovement;
 	JudgeLine judgeLine;
 	VisualEffect visualEffect;
+	MusicGuide musicGuide;
+	MusicScore musicScore;
 
 	//ÉQÅ[ÉÄÇÃèÛë‘Å@0:before 1:now 2:after 3:stop
 	int m_game_state;
@@ -59,8 +63,6 @@ private:
 	float m_score;
 	int m_perfect;
 	int m_maxcombo;
-
-	int m_note_number;
 
 	int m_combo;
 

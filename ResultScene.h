@@ -9,10 +9,12 @@
 #include "MusicManager.h"
 #include "ConfigManager.h"
 #include "ScoreManager.h"
+#include "TextureManager.h"
 
 #include "CharacterDisplay.h"
 
 #include "SceneMovement.h"
+#include "MusicGuide.h"
 
 using namespace std;
 
@@ -33,9 +35,11 @@ private:
 	WindowManager windowManager;
 	KeyManager keyManager;
 	MusicManager musicManager;
+	TextureManager tex;
 	ConfigManager config;
 	CharacterDisplay characterDisplay;
 	SceneMovement sceneMovement;
+	MusicGuide musicGuide;
 
 	static int m_result_score;
 	static int m_result_combo;
@@ -43,4 +47,13 @@ private:
 
 	static int m_result_note_number;
 
+	sf::Sprite m_bg;
+
+	sf::Shader m_shad;
+	sf::RenderStates m_state;
+	
+	//セレクトバー
+	sf::Sprite m_select;
+	bool m_select_tf; // t:select f:retry
+	int m_select_posx[2];
 };

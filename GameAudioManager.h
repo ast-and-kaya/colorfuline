@@ -13,11 +13,14 @@ public:
 	~GameAudioManager();
 
 	void Load(string key, string path);
-	void start(float volume = 1.0f, bool loop = true);
+	void start(float time = -1,float volume = 2.0f, bool loop = true);
 	void pause();
 	void stop();
 	float getOffset();
 	float getDuration();
+	float getVolume();
+	void setOffset(float time);
+	void setVolume(float volume);
 
 	static map<string, std::shared_ptr<sf::Music>> m_music;
 	static string m_back_key;

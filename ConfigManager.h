@@ -30,6 +30,7 @@ public:
 	float getStartMargin();//曲開始前のマージン
 	float getJudgeFrame(int f);//判定時間
 	int getBlackTime();//暗転時間
+	float getPreviewFade();//プレビュー
 
 
 private:
@@ -41,5 +42,7 @@ private:
 	static float m_judge_frame[3];// 1:perfect 2:great 3:good
 
 	static int m_black_time;
+
+	static float m_preview_fade;
 };
 

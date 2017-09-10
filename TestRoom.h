@@ -6,6 +6,7 @@
 
 #include "MusicManager.h"
 #include "ConfigManager.h"
+#include "TextureManager.h"
 
 using namespace std;
 
@@ -24,7 +25,10 @@ private:
 	WindowManager windowManager;
 	KeyManager keyManager;
 	MouseManager mouseManager;
+	TextureManager tex;
 
 	sf::Sprite s;
-	sf::Texture t;
+
+	sf::Shader m_shad;
+	sf::RenderStates m_state;
 };

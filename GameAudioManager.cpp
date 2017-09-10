@@ -23,12 +23,13 @@ void GameAudioManager::Load(string key, string path)
 	}
 }
 
-void GameAudioManager::start( float volume, bool loop)
+void GameAudioManager::start(float time, float volume, bool loop)
 {
 	if (m_music[m_back_key]->getStatus() != sf::SoundSource::Status::Playing) {
 		m_music[m_back_key]->play();
 		m_music[m_back_key]->setLoop(loop);
 		m_music[m_back_key]->setVolume(volume);
+		if(time != -1) m_music[m_back_key]->setPlayingOffset(sf::seconds(time));
 	}
 }
 
@@ -50,4 +51,19 @@ float GameAudioManager::getOffset()
 float GameAudioManager::getDuration()
 {
 	return m_music[m_back_key]->getDuration().asSeconds();
+}
+
+float GameAudioManager::getVolume()
+{
+	return m_music[m_back_key]->getVolume();
+}
+
+void GameAudioManager::setOffset(float time)
+{
+	m_music[m_back_key]->setPlayingOffset(sf::seconds(time));
+}
+
+void GameAudioManager::setVolume(float volume)
+{
+	m_music[m_back_key]->setVolume(volume);
 }

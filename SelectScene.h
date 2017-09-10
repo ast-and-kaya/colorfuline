@@ -9,6 +9,8 @@
 
 #include "ScoreManager.h"
 #include "SceneMovement.h"
+#include "Preview.h"
+#include "MusicGuide.h"
 
 using namespace std;
 
@@ -23,9 +25,7 @@ public:
 	Scene* update();
 	void render();
 
-	void setColorBar(const int* a);
-
-	void setBlackZindex();
+	void setBlackZindex(bool b);
 
 private:
 	wstring_convert<codecvt_utf8<wchar_t>, wchar_t> cv;
@@ -37,6 +37,8 @@ private:
 	TextureManager tex;
 	CharacterDisplay characterDisplay;
 	SceneMovement sceneMovement;
+	Preview preview;
+	MusicGuide musicGuide;
 
 	//フォント
 	sf::Font m_font_list;
@@ -57,7 +59,6 @@ private:
 	sf::Color m_diff_color[3];
 
 	//曲情報
-	sf::Sprite m_use_color[7];//使用色
 	//サムネイル
 	sf::Texture m_tex_jacket;
 	sf::Sprite m_jacket;

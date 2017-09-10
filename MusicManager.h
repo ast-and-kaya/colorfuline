@@ -29,6 +29,7 @@ public:
 		int easy_color[7];
 		int normal_color[7];
 		int hard_color[7];
+		float preview[2];
 	};
 
 	void DataLoding();

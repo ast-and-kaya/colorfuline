@@ -39,16 +39,22 @@ void JudgeLine::initialize()
 void JudgeLine::update()
 {
 	//Œõ‚é‚Æ‚±‚ë
-	//m_sub_color[0] = (keyJudge.getKeyColor().r != 0) ? 255 : m_sub_color[0];
-	//m_sub_color[1] = (keyJudge.getKeyColor().g != 0) ? 255 : m_sub_color[1];
-	//m_sub_color[2] = (keyJudge.getKeyColor().b != 0) ? 255 : m_sub_color[2];
-	//
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	m_sub_color[i] -= (m_sub_color[i] > 0) ? 15 : 0;
-	//}
-	//
-	//if (m_pre) m_sprite_sub.setColor(sf::Color(m_sub_color[0], m_sub_color[1], m_sub_color[2], 255));
+	m_sub_color[0] = (keyJudge.getKeyColor().r != 0) ? 255 : m_sub_color[0];
+	m_sub_color[1] = (keyJudge.getKeyColor().g != 0) ? 255 : m_sub_color[1];
+	m_sub_color[2] = (keyJudge.getKeyColor().b != 0) ? 255 : m_sub_color[2];
+	
+	for (int i = 0; i < 3; i++)
+	{
+		m_sub_color[i] -= (m_sub_color[i] > 0) ? 10 : 0;
+		m_sub_color[i] = (m_sub_color[i] < 0) ? 0 : m_sub_color[i];
+	}
+	
+	int alpha = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		alpha = (alpha < m_sub_color[i]) ? m_sub_color[i] : alpha;
+	}
+	if (m_pre) m_sprite_sub.setColor(sf::Color(m_sub_color[0], m_sub_color[1], m_sub_color[2], alpha));
 
 	//Å‰‚ÌL‚Ñ‚é‚Æ‚±‚ë
 	if (m_margin_f > 1.0f) {
@@ -76,7 +82,7 @@ void JudgeLine::update()
 
 void JudgeLine::render()
 {
-	//windowManager.getWindow()->draw(m_sprite_sub);
+	windowManager.getWindow()->draw(m_sprite_sub);
 	windowManager.getWindow()->draw(m_sprite, m_state);
 }
 

@@ -52,6 +52,9 @@ void MusicManager::DataLoding() {
 			s_item.normal_color[i] = val.get("normal").get("diff").get(i).get<double>();
 			s_item.hard_color[i] = val.get("hard").get("diff").get(i).get<double>();
 		}
+		//‹ÈƒvƒŒƒrƒ…[
+		s_item.preview[0] = val.get("preview").get("start").get<double>();
+		s_item.preview[1] = val.get("preview").get("end").get<double>();
 		
 		item.push_back(s_item);
 	}

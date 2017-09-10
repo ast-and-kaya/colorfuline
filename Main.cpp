@@ -34,7 +34,7 @@ int main()
 	windowManager.setWindowActive(true);
 
 	Scene* m_scene;
-	//m_scene = new SelectScene;
+	//m_scene = new TestRoom;
 	m_scene = new TitleScene;
 	m_scene->initialize();
 

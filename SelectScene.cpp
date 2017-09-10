@@ -21,6 +21,7 @@ void SelectScene::initialize()
 	sf::Texture t;
 	t.create(1000, 1080);
 	m_list_bg.setTexture(t);
+	m_list_bg.setPosition(920, 0);
 	//選択背景
 	m_shad_list_bg.loadFromFile("data/shader/select_bar.frag",sf::Shader::Fragment);
 	m_shad_list_bg.setParameter("r", sf::Vector2f(config.m_window_size.x,config.m_window_size.y));
@@ -30,7 +31,7 @@ void SelectScene::initialize()
 	//曲名リスト
 	m_font_list.loadFromFile("data/font/851tegaki.ttf");
 	m_s_move = 0;
-	m_list_pos = sf::Vector2f(500, -config.getNowMusic(config.Num)*77);
+	m_list_pos = sf::Vector2f(920 + 500, -config.getNowMusic(config.Num)*77);
 	for (int i = 0; i < musicManager.getItemNumber(); i++)
 	{
 		sf::Text t;
@@ -44,31 +45,13 @@ void SelectScene::initialize()
 	}
 
 	//曲情報
-	//使用色
-	sf::Color c[7] = {
-		sf::Color::Red,sf::Color::Green,sf::Color::Blue,
-		sf::Color::Cyan,sf::Color::Magenta,sf::Color::Yellow,
-		sf::Color::White
-	};
-	for (int i = 0; i < 7; i++)
-	{
-		m_use_color[i].setTexture(tex.get("select_use_color"));
-		m_use_color[i].setColor(c[i]);
-		m_use_color[i].setPosition(sf::Vector2f(1250,190) + sf::Vector2f(60*i,0));
-	}
-	setColorBar(musicManager.getItem(config.getNowMusic(config.Num)).easy_color);
-	//文字
-	characterDisplay.setFont("tegaki", "data/font/851tegaki.ttf");
-	characterDisplay.setCharacter("title", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).music_name, sf::Vector2f(1050, 0), 75);//曲名
-	characterDisplay.setCharacter("artist", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).artist, sf::Vector2f(1400, 100), 60);//アーティスト
-	characterDisplay.setCharacter("level", "tegaki", "Lv.", sf::Vector2f(1050, 180), 85);//レベル
+	musicGuide.initialize();
+
 	//サムネイル
 	m_tex_jacket.loadFromFile("data/image/select/no_jacket.png");//本体
 	m_jacket.setTexture(m_tex_jacket);
-	m_jacket.setPosition(1000, 0);
 	m_shad_jacket.loadFromFile("data/shader/select_jacket.frag", sf::Shader::Fragment);//シェーダ
 	m_shad_jacket.setParameter("texture", m_tex_jacket);
-	m_shad_jacket.setParameter("texture2", tex.get("select_jacket_cover"));
 	m_shad_jacket.setParameter("t_color", m_diff_color[config.getNowMusic(config.Diff)]);
 	m_state_jacket.shader = &m_shad_jacket;
 
@@ -76,6 +59,8 @@ void SelectScene::initialize()
 
 	sceneMovement.initialize();
 	sceneMovement.Out();
+
+	preview.initialize();
 }
 
 
@@ -85,7 +70,8 @@ Scene* SelectScene::update()
 
 	//ブラック
 	sceneMovement.update();
-	if (sceneMovement.getAlpha() == 0) m_black_zindex = false;
+	if (sceneMovement.getAlpha() == 0) m_black_zindex = true;
+	//cout << m_black_zindex << endl;
 
 	//曲選択
 	if (keyManager.push_key(sf::Keyboard::Up) && config.getNowMusic(config.Num) > 0) {
@@ -106,8 +92,7 @@ Scene* SelectScene::update()
 		}
 	}
 	for (int i = 0; i < m_list.size(); i++) {
-		int alpha = 255 - (abs(i - config.getNowMusic(config.Num))-0.5) *(255 / 7);
-		alpha = (alpha < 0) ? 0:alpha;
+		int alpha = 255 - abs(i - config.getNowMusic(config.Num)) * 255 / 8 ;
 		m_list[i].setColor(sf::Color(255,255,255,alpha));
 	}
 	m_list[config.getNowMusic(config.Num)].setColor(sf::Color::Black);
@@ -127,13 +112,8 @@ Scene* SelectScene::update()
 	}
 
 	//使用色
-	if (config.getNowMusic(config.Diff) == 0) setColorBar(musicManager.getItem(config.getNowMusic(config.Num)).easy_color);
-	if (config.getNowMusic(config.Diff) == 1) setColorBar(musicManager.getItem(config.getNowMusic(config.Num)).normal_color);
-	if (config.getNowMusic(config.Diff) == 2) setColorBar(musicManager.getItem(config.getNowMusic(config.Num)).hard_color);
 	//文字
-	characterDisplay.changeString("title", musicManager.getItem(config.getNowMusic(config.Num)).music_name);//曲名
-	characterDisplay.changeString("artist", musicManager.getItem(config.getNowMusic(config.Num)).artist);//アーティスト
-	characterDisplay.changeString("level", "Lv." + to_string(musicManager.getItem(config.getNowMusic(config.Num)).level[config.getNowMusic(config.Diff)]));//レベル
+	musicGuide.update();
 
 	//曲情報更新
 	if (m_bf_music != config.getNowMusic(config.Num))
@@ -148,18 +128,24 @@ Scene* SelectScene::update()
 	}
 	m_shad_jacket.setParameter("t_color", m_diff_color[config.getNowMusic(config.Diff)]);
 
+	//曲プレビュー
+	preview.update();
+
 	//シーン移動
 	static bool scene;
 	if (keyManager.push_key(sf::Keyboard::Return)) {
+		preview.getMusic().stop();
 		sceneMovement.In();
 		scene = true;
 	}
 	if (keyManager.push_key(sf::Keyboard::Escape)) {
 		sceneMovement.In();
+		m_black_zindex = false;
 		scene = false;
 	}
 
 	if (sceneMovement.getAlpha() == 255) {
+		preview.getMusic().stop();
 		if (scene) next = new GameScene;
 		if (!scene) next = new TitleScene;
 	}
@@ -178,35 +164,18 @@ void SelectScene::render()
 	}
 	//ジャケット
 	windowManager.getWindow()->draw(m_jacket,m_state_jacket);//サムネイル
-	//使用色
-	for (int i = 0; i < 7; i++)
-	{
-		windowManager.getWindow()->draw(m_use_color[i]);
-	}
+	//曲pre
+	preview.render();
 
 	if (m_black_zindex) sceneMovement.render();
 
 	//文字
-	characterDisplay.render("title");
-	characterDisplay.render("artist");
-	characterDisplay.render("level");
+	musicGuide.render();
 	
 	if (!m_black_zindex) sceneMovement.render();
 }
 
-void SelectScene::setColorBar(const int* a) {
-	for (int i = 0; i < 7; i++)
-	{
-		m_use_color[i].setColor(sf::Color(
-			m_use_color[i].getColor().r,
-			m_use_color[i].getColor().g,
-			m_use_color[i].getColor().b,
-			a[i] * 255
-		));
-	}
-}
-
-void SelectScene::setBlackZindex()
+void SelectScene::setBlackZindex(bool b)
 {
-	m_black_zindex = true;
+	m_black_zindex = b;
 }

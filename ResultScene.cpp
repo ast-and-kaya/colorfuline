@@ -18,26 +18,36 @@ ResultScene::~ResultScene()
 
 void ResultScene::initialize()
 {
-	//スコア等の文字
+	//背景
+	m_bg.setTexture(tex.get("black"));
+
+	m_shad.loadFromFile("data/shader/result_bg.frag", sf::Shader::Fragment);
+	m_shad.setParameter("r", sf::Vector2f(windowManager.getWindow()->getSize().x, windowManager.getWindow()->getSize().y));
+	m_state.shader = &m_shad;
+	
 	//フォント
 	characterDisplay.setFont("Dosis", "data/font/Dosis-Light.ttf");
-	characterDisplay.setFont("tegaki", "data/font/851tegaki.ttf");
-	//文字
-	//タイトル
-	characterDisplay.setCharacter("title", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).music_name, sf::Vector2f(1050, 0), 75);//曲名
-	characterDisplay.setCharacter("artist", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).artist, sf::Vector2f(1400, 100), 60);//アーティスト
+	//スコア等の文字
 	//スコア
-	characterDisplay.setCharacter("Iscore", "Dosis", "score", sf::Vector2f(50, 200), 100);
+	characterDisplay.setCharacter("Iscore", "Dosis", "SCORE", sf::Vector2f(900, 158), 176, sf::Color( 0, 0, 0, 30));
 	characterDisplay.setCharacter("Sscore", "Dosis", to_string(m_result_score), sf::Vector2f(50, 300), 100);
 	//コンボ
-	characterDisplay.setCharacter("Icombo", "Dosis", "combo", sf::Vector2f(50, 400), 100);
+	characterDisplay.setCharacter("Icombo", "Dosis", "COMBO", sf::Vector2f(900, 430), 176, sf::Color(0, 0, 0, 30));
 	characterDisplay.setCharacter("Scombo", "Dosis", to_string(m_result_combo), sf::Vector2f(50, 500), 100);
 	//パーフェクト
-	characterDisplay.setCharacter("Iperfect", "Dosis", "perfect", sf::Vector2f(50, 600), 100);
+	characterDisplay.setCharacter("Iperfect", "Dosis", "PERFECT", sf::Vector2f(900, 698), 176, sf::Color(0, 0, 0, 30));
 	characterDisplay.setCharacter("Sperfect", "Dosis", to_string(m_result_perfect), sf::Vector2f(50, 700), 100);
 	//メニュー
-	characterDisplay.setCharacter("retry", "Dosis", "Retry", sf::Vector2f(1200, 900), 100);
-	characterDisplay.setCharacter("next", "Dosis", "Next", sf::Vector2f(1500, 900), 100);
+	characterDisplay.setCharacter("retry", "Dosis", "Retry", sf::Vector2f(120, 850), 120);
+	characterDisplay.setCharacter("next", "Dosis", "Next", sf::Vector2f(520, 850), 120);
+
+	//セレクトバー
+	m_select.setTexture(tex.get("result_select"));
+	m_select.setOrigin(350, 0);
+	m_select_tf = true;
+	m_select_posx[0] = 330;//retry
+	m_select_posx[1] = 730;//next
+	m_select.setPosition(m_select_posx[m_select_tf], 968);
 
 	//ブラック
 	sceneMovement.initialize();
@@ -49,11 +59,32 @@ Scene* ResultScene::update()
 	Scene* next = this;
 	sceneMovement.update();
 
+	//セレクトバー
+	if (sceneMovement.getAlpha() == 0)
+	{
+		if (keyManager.push_key(sf::Keyboard::Right) || keyManager.push_key(sf::Keyboard::Left)) {
+			m_select_tf = !m_select_tf;
+			m_select.setScale(0, 1);
+		}
+	}
+	m_select.setPosition(m_select_posx[m_select_tf], 968);//位置変更
+	if (m_select.getScale().x < 1) m_select.setScale(m_select.getScale().x + 0.15, 1);//セレクトバースケール調整
+
 	if (keyManager.push_key(sf::Keyboard::Return))
 	{
-		SelectScene selectScene;
-		selectScene.setBlackZindex();
-		next = new SelectScene;
+		sceneMovement.In();
+	}
+	if (sceneMovement.getAlpha() >= 255)
+	{
+		if (m_select_tf)
+		{
+			SelectScene s;
+			s.setBlackZindex(true);
+			next = new SelectScene;
+		}
+		else {
+			next = new GameScene;
+		}
 	}
 
 	return next;
@@ -61,10 +92,20 @@ Scene* ResultScene::update()
 
 void ResultScene::render()
 {
-	characterDisplay.render("title");
-	characterDisplay.render("artist");
+
+	windowManager.getWindow()->draw( m_bg, m_state);
+
+	characterDisplay.render("Iscore");
+	characterDisplay.render("Icombo");
+	characterDisplay.render("Iperfect");
+
+	characterDisplay.render("next");
+	characterDisplay.render("retry");
+	windowManager.getWindow()->draw(m_select);
 
 	sceneMovement.render();
+
+	musicGuide.render();
 }
 
 

@@ -20,8 +20,6 @@ void GameScene::initialize()
 	m_perfect = 0;
 	m_maxcombo = 0;
 
-	m_note_number = 0;
-
 	m_combo = 0;
 
 	m_black_zindex = false;
@@ -32,18 +30,11 @@ void GameScene::initialize()
 
 	visualEffect.initialize("data/music/" + folder_name + "/music.wav");
 
-	//cout << config.getNowMusic(config.Num) << endl;
-
 	//ノート追加
-	//ファイルの仕様と拡張子を決めておく
-	sf::Color c[7] = { sf::Color::Red, sf::Color::Green, sf::Color::Blue,
-						sf::Color::Cyan, sf::Color::Magenta, sf::Color::Yellow,
-						sf::Color::White };
+	musicScore.Loading();
 	for (int i = 0; i < 1000; i++) {
 		m_note.push_back(Note());
-		m_note[i].setNote(i*(60.f/162.f) + 0.1, c[rand()%3]);
-
-		m_note_number++;
+		m_note[i].setNote(musicScore.getData(i).time, musicScore.getData(i).color);
 	}
 
 	//判定ライン
@@ -56,8 +47,6 @@ void GameScene::initialize()
 	//文字
 	characterDisplay.setCharacter("score", "Dosis", to_string((int)m_score), sf::Vector2f(100, 780),160);
 	characterDisplay.setCharacter("combo", "Dosis", "x" + to_string((int)m_combo), sf::Vector2f(1600, 780),160);
-	characterDisplay.setCharacter("title", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).music_name, sf::Vector2f(50, 0),75);
-	characterDisplay.setCharacter("artist", "tegaki", musicManager.getItem(config.getNowMusic(config.Num)).artist, sf::Vector2f(50, 100),60);
 
 	keyJudge.initialize();
 	pause.initialize();
@@ -110,8 +99,6 @@ void GameScene::render()
 	//文字
 	characterDisplay.render("score");
 	characterDisplay.render("combo");
-	characterDisplay.render("title");
-	characterDisplay.render("artist");
 
 	if (!m_black_zindex)sceneMovement.render();
 
@@ -125,6 +112,8 @@ void GameScene::render()
 	}
 
 	if (m_black_zindex)sceneMovement.render();
+
+	musicGuide.render();
 
 	//ポーズ画面
 	if(m_game_state == 3) pause.render();
@@ -218,7 +207,7 @@ void GameScene::playAfter(Scene*& n) {
 	{
 		m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
 		ResultScene result;
-		result.setScereData(m_score, m_maxcombo, m_perfect, m_note_number);
+		result.setScereData(m_score, m_maxcombo, m_perfect, musicScore.getSize());
 		n = new ResultScene;
 	}
 }

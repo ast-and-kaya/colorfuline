@@ -72,7 +72,11 @@ int Pause::update(Scene*& n)
 	if (sceneMovement.getAlpha() == 255)
 	{
 		if (scene) n = new GameScene;
-		if (!scene) n = new SelectScene;
+		if (!scene) {
+			SelectScene s;
+			s.setBlackZindex(false);
+			n = new SelectScene;
+		}
 	}
 
 	return 3;

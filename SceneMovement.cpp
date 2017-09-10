@@ -1,5 +1,7 @@
 #include "SceneMovement.h"
 
+bool SceneMovement::m_in_out;
+
 SceneMovement::SceneMovement()
 {
 }
@@ -15,6 +17,8 @@ void SceneMovement::initialize(int alpha)
 
 	m_sprite.setTexture(tex.get("black"));
 	m_sprite.setColor(sf::Color(0, 0, 0, m_alpha));
+
+	m_in_out = false;
 }
 
 void SceneMovement::update()

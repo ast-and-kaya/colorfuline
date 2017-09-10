@@ -32,6 +32,6 @@ private:
 	sf::Sprite m_sprite;
 
 	int m_alpha; // 0~255
-	bool m_in_out;
+	static bool m_in_out;
 };
 

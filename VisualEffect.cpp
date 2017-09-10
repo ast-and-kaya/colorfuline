@@ -21,7 +21,7 @@ void VisualEffect::initialize(string path)
 	soundValue.setFilePass(path);
 	m_sprite.setTexture(tex.get("black"));
 
-	shader.loadFromFile("data/shader/game_bg.frag", sf::Shader::Fragment);
+	shader.loadFromFile("data/shader/game_ring.frag", sf::Shader::Fragment);
 	shader.setParameter("r", sf::Vector2f(config.m_window_size.x, config.m_window_size.y));
 	state.shader = &shader;
 }

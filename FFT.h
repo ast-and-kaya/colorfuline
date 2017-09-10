@@ -7,6 +7,9 @@
 #include <valarray>
 #include <math.h>
 
+#include <stdio.h>
+#include <windows.h>
+
 #include "WindowManager.h"
 
 const double PI = 3.141592653589793238460 ;
@@ -28,21 +31,24 @@ public:
 	void update(float is_time = 0);
 
 	vector<int> getData();
+	bool getLoadEnd();
+
+	static void load();
+	static sf::SoundBuffer buffer ;
+	static string m_path;
 
 private:
 	WindowManager windowManger;
-
-	sf::SoundBuffer buffer ;
 
 	vector<Complex> sample ;
 	vector<float> window ;
 	CArray bin ;
 	
-	int sampleRate ;
-	int sampleCount ;
 	int bufferSize ;
 	int mark ;
 
 	vector<int> data;
+
+	static bool m_load_end;
 };
 

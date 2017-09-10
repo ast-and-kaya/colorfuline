@@ -5,6 +5,8 @@
 #include <iostream>
 #include "SelectScene.h"
 #include "SceneMovement.h"
+#include "ConfigManager.h"
+
 
 class TitleScene:
 	public Scene
@@ -22,25 +24,17 @@ private:
 	KeyManager keyManager;
 	TextureManager tex;
 	SceneMovement sceneMovement;
+	ConfigManager config;
 
 	sf::Sprite m_bg;
-
-	sf::Sprite m_ring;
-
-	float m_ring_alpha;
-
-	sf::RenderStates m_rs_ring;
-	sf::Shader m_shad_ring;
+	sf::RenderStates m_bg_state;
+	sf::Shader m_bg_shad;
+	sf::Clock m_clock;
 
 	//ロゴ
 	sf::Sprite m_logo;
 	//ロゴ　ぼかし
 	sf::Sprite m_logo_blur;
-	sf::Clock blur_clock;
-
-	//フェード用　黒
-	sf::Sprite m_black;
-	int m_black_alpha;
 
 	//文字
 	sf::Font font;

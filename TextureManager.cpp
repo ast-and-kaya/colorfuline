@@ -17,14 +17,6 @@ void TextureManager::Loading() {
 	m_texture["black"].loadFromFile("data/image/black.png");
 
 	//タイトル
-	m_texture.insert(map<string, sf::Texture>::value_type("title_bg", sf::Texture()));
-	m_texture["title_bg"].loadFromFile("data/image/title/bg.png");
-
-	m_texture.insert(map<string, sf::Texture>::value_type("title_ring", sf::Texture()));
-	m_texture["title_ring"].loadFromFile("data/image/title/ring.png");
-	
-	m_texture.insert(map<string, sf::Texture>::value_type("title_ring_sub", sf::Texture()));
-	m_texture["title_ring_sub"].loadFromFile("data/image/title/ring_sub.png");
 	
 	m_texture.insert(map<string, sf::Texture>::value_type("title_logo", sf::Texture()));
 	m_texture["title_logo"].loadFromFile("data/image/title/logo.png");
@@ -39,8 +31,11 @@ void TextureManager::Loading() {
 	m_texture.insert(map<string, sf::Texture>::value_type("select_use_color", sf::Texture()));
 	m_texture["select_use_color"].loadFromFile("data/image/Select/use_color.png");
 
-	m_texture.insert(map<string, sf::Texture>::value_type("select_jacket_cover", sf::Texture()));
-	m_texture["select_jacket_cover"].loadFromFile("data/image/Select/jacket_cover.png");
+	m_texture.insert(map<string, sf::Texture>::value_type("select_loading0", sf::Texture()));
+	m_texture["select_loading0"].loadFromFile("data/image/Select/loading0.png");
+
+	m_texture.insert(map<string, sf::Texture>::value_type("select_loading1", sf::Texture()));
+	m_texture["select_loading1"].loadFromFile("data/image/Select/loading1.png");
 
 	//ゲーム
 	m_texture.insert(map<string, sf::Texture>::value_type("game_note", sf::Texture()));
@@ -53,6 +48,8 @@ void TextureManager::Loading() {
 	m_texture["game_judge_line_sub"].loadFromFile("data/image/Game/judge_line_sub.png");
 
 	//リザルト
+	m_texture.insert(map<string, sf::Texture>::value_type("result_select", sf::Texture()));
+	m_texture["result_select"].loadFromFile("data/image/result/select_line.png");
 }
 
 sf::Texture& TextureManager::get(string key) {

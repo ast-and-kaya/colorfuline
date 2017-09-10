@@ -1,5 +1,9 @@
 #include "FFT.h"
 
+sf::SoundBuffer FFT::buffer;
+string FFT::m_path;
+bool FFT::m_load_end;
+
 FFT::FFT()
 {
 }
@@ -9,16 +13,18 @@ FFT::~FFT() {
 }
 
 void FFT::init(string const& path) {
-	buffer.loadFromFile(path);
+	m_path = path;
 
-	sampleRate = buffer.getSampleRate()*buffer.getChannelCount() ;
-	sampleCount = buffer.getSampleCount();
-	bufferSize = (16384 < sampleCount) ? 16384 : sampleCount;
-	mark = 0 ;
+	m_load_end = false;
 
-	for(int i(0) ; i < bufferSize ; i++) window.push_back(0.54-0.46*cos(2*PI*i/(float)bufferSize)) ;
+	bufferSize = 16384;
+	sample.resize(bufferSize);
+	for (int i(0); i < bufferSize; i++) window.push_back(0.54 - 0.46*cos(2 * PI*i / (float)bufferSize));
 
-	sample.resize(bufferSize) ;
+	mark = 0;
+
+	HANDLE handle;
+	handle = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)load, NULL, 0, 0);
 
 }
 
@@ -44,27 +50,25 @@ void FFT::fft(CArray &x)
 
 void FFT::update(float is_time)
 {
-	mark = is_time*sampleRate ;
-	if(mark+bufferSize < sampleCount)
-	{
-		for(int i(mark) ; i < bufferSize+mark ; i++)
+	if (m_load_end) {
+		mark = is_time * (44100 * 2);
+		for (int i(mark); i < bufferSize + mark; i++)
 		{
-			sample[i-mark] = Complex(buffer.getSamples()[i]*window[i-mark],0);
+			sample[i - mark] = Complex(buffer.getSamples()[i] * window[i - mark], 0);
 		}
-	}
 
-	bin = CArray(sample.data(),bufferSize);
-	fft(bin) ;
+		bin = CArray(sample.data(), bufferSize);
+		fft(bin);
 
+		int cnt = 0;
+		data.clear();
+		for (float i(1); i < bufferSize / 4.f; i *= 1.01)
+		{
+			if (cnt % 4 == 0) data.push_back(0);
+			data[data.size() - 1] += abs(bin[(int)i]);
 
-	int cnt = 0;
-	data.clear();
-	for(float i(1) ; i < bufferSize/4.f ; i*=1.01) //–ñ850‰ñ
-	{
-		if (cnt % 4 == 0) data.push_back(0);
-		data[data.size() - 1] += abs(bin[(int)i]);
-
-		cnt++;
+			cnt++;
+		}
 	}
 
 }
@@ -72,4 +76,14 @@ void FFT::update(float is_time)
 vector<int> FFT::getData()
 {
 	return data;
+}
+
+bool FFT::getLoadEnd()
+{
+	return m_load_end;
+}
+
+void FFT::load()
+{
+	if (buffer.loadFromFile(m_path)) m_load_end = true;
 }

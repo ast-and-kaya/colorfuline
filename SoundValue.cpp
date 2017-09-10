@@ -76,7 +76,7 @@ void SoundValue::setFilePass(string pass) {
 	}
 	//printf("%02x",buff[0]);
 
-	ms_data = data.bytesPerSec / 1001; // 1/1000秒のデータ量
+	ms_data = data.bytesPerSec / 1000; // 1/1000秒のデータ量
 
 }
 
