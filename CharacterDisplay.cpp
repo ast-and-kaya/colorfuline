@@ -36,3 +36,20 @@ void CharacterDisplay::changeString(string key, string chara)
 {
 	m_text[key].setString(cv.from_bytes(chara));
 }
+
+void CharacterDisplay::setOrigin(string key, Align align)
+{
+	if ((int)align == 0)//left
+	{
+		m_text[key].setOrigin(0, 0);
+	}
+	if ((int)align == 1)//center
+	{
+		m_text[key].setOrigin(m_text[key].getGlobalBounds().width / 2.f, 0);
+	}
+	if ((int)align == 2)//right
+	{
+		m_text[key].setOrigin(m_text[key].getGlobalBounds().width, 0);
+	}
+}
+

@@ -19,6 +19,14 @@ public:
 	void setCharacter(string key, string font, string chara, sf::Vector2f pos, int size = 80, sf::Color color = sf::Color(255,255,255,255));
 
 	void changeString(string key, string chara);//•¶š•ÏX
+	
+	enum Align
+	{
+		Left,
+		Center,
+		Right,
+	};
+	void setOrigin(string key, Align align);
 
 private:
 	wstring_convert<codecvt_utf8<wchar_t>, wchar_t> cv;

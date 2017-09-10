@@ -6,6 +6,8 @@
 #include "TextureManager.h"
 #include "ConfigManager.h"
 
+#include "KeyJudge.h"
+
 #include <iostream>
 
 using namespace std;
@@ -24,6 +26,7 @@ private:
 	WindowManager windowManager;
 	ConfigManager config;
 	TextureManager tex;
+	KeyJudge keyJudge;
 
 	FFT fft;
 	vector<int> data;
@@ -34,5 +37,6 @@ private:
 	sf::Shader shader;
 	sf::Sprite m_sprite;
 
+	int m_sub_color[3];
 };
 

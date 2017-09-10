@@ -29,7 +29,7 @@ public:
 	Scene* update();
 	void render();
 
-	void setScereData(int score, int combo, int perfect, int note);
+	void setScereData(float score, int combo, int perfect, int note);
 
 private:
 	WindowManager windowManager;
@@ -41,7 +41,7 @@ private:
 	SceneMovement sceneMovement;
 	MusicGuide musicGuide;
 
-	static int m_result_score;
+	static float m_result_score;
 	static int m_result_combo;
 	static int m_result_perfect;
 

@@ -48,6 +48,25 @@ void VisualEffect::updata(float time)
 	//value
 	sf::Vector2f value(soundValue.getValue(time, 0), soundValue.getValue(time, 1));
 	shader.setParameter("v", sf::Vector2f(value.x / 32768.f, value.y / 32768.f));
+
+
+	//‰º•”ƒtƒHƒO
+	m_sub_color[0] = (keyJudge.getKeyColor().r != 0) ? 255 : m_sub_color[0];
+	m_sub_color[1] = (keyJudge.getKeyColor().g != 0) ? 255 : m_sub_color[1];
+	m_sub_color[2] = (keyJudge.getKeyColor().b != 0) ? 255 : m_sub_color[2];
+
+	for (int i = 0; i < 3; i++)
+	{
+		m_sub_color[i] -= (m_sub_color[i] > 0) ? 10 : 0;
+		m_sub_color[i] = (m_sub_color[i] < 0) ? 0 : m_sub_color[i];
+	}
+
+	int alpha = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		alpha = (alpha < m_sub_color[i]) ? m_sub_color[i] : alpha;
+	}
+	m_sprite.setColor(sf::Color(m_sub_color[0], m_sub_color[1], m_sub_color[2], 255));
 }
 
 void VisualEffect::render()

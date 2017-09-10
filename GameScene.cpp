@@ -207,7 +207,7 @@ void GameScene::playAfter(Scene*& n) {
 	{
 		m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
 		ResultScene result;
-		result.setScereData(m_score, m_maxcombo, m_perfect, musicScore.getSize());
+		result.setScereData(m_score / 100.f, m_maxcombo, m_perfect, musicScore.getSize());
 		n = new ResultScene;
 	}
 }

@@ -1,6 +1,6 @@
 #include "ResultScene.h"
 
-int ResultScene::m_result_score;
+float ResultScene::m_result_score;
 int ResultScene::m_result_combo;
 int ResultScene::m_result_perfect;
 
@@ -30,13 +30,19 @@ void ResultScene::initialize()
 	//スコア等の文字
 	//スコア
 	characterDisplay.setCharacter("Iscore", "Dosis", "SCORE", sf::Vector2f(900, 158), 176, sf::Color( 0, 0, 0, 30));
-	characterDisplay.setCharacter("Sscore", "Dosis", to_string(m_result_score), sf::Vector2f(50, 300), 100);
+	string s = to_string(m_result_score);
+	for (int i = 0; i < 4; i++) s.pop_back();
+	characterDisplay.setCharacter("Sscore", "Dosis", s, sf::Vector2f(1920, 205), 130, sf::Color(0, 0, 0, 255));
+	characterDisplay.setOrigin("Sscore", CharacterDisplay::Align::Right);
 	//コンボ
 	characterDisplay.setCharacter("Icombo", "Dosis", "COMBO", sf::Vector2f(900, 430), 176, sf::Color(0, 0, 0, 30));
-	characterDisplay.setCharacter("Scombo", "Dosis", to_string(m_result_combo), sf::Vector2f(50, 500), 100);
+	characterDisplay.setCharacter("Scombo", "Dosis", to_string(m_result_combo), sf::Vector2f(1920, 475), 130, sf::Color(0, 0, 0, 255));
+	characterDisplay.setOrigin("Scombo", CharacterDisplay::Align::Right);
 	//パーフェクト
 	characterDisplay.setCharacter("Iperfect", "Dosis", "PERFECT", sf::Vector2f(900, 698), 176, sf::Color(0, 0, 0, 30));
-	characterDisplay.setCharacter("Sperfect", "Dosis", to_string(m_result_perfect), sf::Vector2f(50, 700), 100);
+	characterDisplay.setCharacter("Sperfect", "Dosis", to_string(m_result_perfect), sf::Vector2f(1920, 745), 130, sf::Color(0, 0, 0, 255));
+	characterDisplay.setOrigin("Sperfect", CharacterDisplay::Align::Right);
+
 	//メニュー
 	characterDisplay.setCharacter("retry", "Dosis", "Retry", sf::Vector2f(120, 850), 120);
 	characterDisplay.setCharacter("next", "Dosis", "Next", sf::Vector2f(520, 850), 120);
@@ -99,6 +105,10 @@ void ResultScene::render()
 	characterDisplay.render("Icombo");
 	characterDisplay.render("Iperfect");
 
+	characterDisplay.render("Sscore");
+	characterDisplay.render("Scombo");
+	characterDisplay.render("Sperfect");
+
 	characterDisplay.render("next");
 	characterDisplay.render("retry");
 	windowManager.getWindow()->draw(m_select);
@@ -109,7 +119,7 @@ void ResultScene::render()
 }
 
 
-void ResultScene::setScereData(int score, int combo, int perfect, int note) {
+void ResultScene::setScereData(float score, int combo, int perfect, int note) {
 	m_result_score = score;
 	m_result_combo = combo;
 	m_result_perfect = perfect;
