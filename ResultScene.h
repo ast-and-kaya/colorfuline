@@ -29,7 +29,7 @@ public:
 	Scene* update();
 	void render();
 
-	void setScereData(float score, int combo, int perfect, int note);
+	void setScereData(float score, int combo, int great, int note);
 
 private:
 	WindowManager windowManager;
@@ -43,7 +43,7 @@ private:
 
 	static float m_result_score;
 	static int m_result_combo;
-	static int m_result_perfect;
+	static int m_result_great;
 
 	static int m_result_note_number;
 

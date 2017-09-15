@@ -32,9 +32,24 @@ void CharacterDisplay::setCharacter(string key, string font, string chara, sf::V
 	m_text[key].setColor(color);
 }
 
+sf::Vector2f CharacterDisplay::getPosition(string key)
+{
+	return m_text[key].getPosition();
+}
+
 void CharacterDisplay::changeString(string key, string chara)
 {
 	m_text[key].setString(cv.from_bytes(chara));
+}
+
+void CharacterDisplay::changeColor(string key, sf::Color color)
+{
+	m_text[key].setColor(color);
+}
+
+void CharacterDisplay::changePosition(string key, sf::Vector2f pos)
+{
+	m_text[key].setPosition(pos);
 }
 
 void CharacterDisplay::setOrigin(string key, Align align)
@@ -51,5 +66,10 @@ void CharacterDisplay::setOrigin(string key, Align align)
 	{
 		m_text[key].setOrigin(m_text[key].getGlobalBounds().width, 0);
 	}
+}
+
+sf::Vector2f CharacterDisplay::getBox(string key)
+{
+	return sf::Vector2f( m_text[key].getGlobalBounds().width, m_text[key].getGlobalBounds().height);
 }
 

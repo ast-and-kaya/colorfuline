@@ -2,10 +2,7 @@
 #include <SFML/Audio.hpp>
 #include "Scene.h"
 #include <iostream>
-#include <codecvt>
 
-#include "MusicManager.h"
-#include "ConfigManager.h"
 #include "TextureManager.h"
 
 using namespace std;
@@ -27,8 +24,9 @@ private:
 	MouseManager mouseManager;
 	TextureManager tex;
 
-	sf::Sprite s;
+	sf::Sprite m_bg;
+	sf::Texture m_tex;
 
-	sf::Shader m_shad;
 	sf::RenderStates m_state;
+	sf::Shader m_shad;
 };

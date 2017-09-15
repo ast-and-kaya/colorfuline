@@ -17,27 +17,32 @@ void Pause::initialize()
 
 	//”wŒi
 	m_bg.setTexture(tex.get("black"));
-	m_bg.setColor(sf::Color(255, 0, 0, 100));
+	m_shad.loadFromFile("data/shader/pouse_bg.frag",sf::Shader::Fragment);
+	m_shad.setParameter("time", m_clock.getElapsedTime().asSeconds());
+	m_state.shader = &m_shad;
+
 
 	//•¶Žš
-	const string MenuString[3] = { "resume", "replay", "back"};
-	const sf::Vector2f TextPostion(0,0);
+	TextPos = sf::Vector2f(960,190);
 
-	m_font.loadFromFile("data/font/Dosis-Light.ttf");
-	for (int i = 0; i < 3; i++)
-	{
-		m_menu[i].setFont(m_font);
-		m_menu[i].setColor(sf::Color::White);
-		m_menu[i].setString(MenuString[i]);
-		m_menu[i].setCharacterSize(130);
-		m_menu[i].setPosition(sf::Vector2f(0,i*180) + TextPostion);
-	}
+	characterDisplay.setFont("Dosis", "data/font/Dosis-Light.ttf");
+
+	characterDisplay.setCharacter("Sresume", "Dosis", "Resume", TextPos + sf::Vector2f(0, 0), 150);
+	characterDisplay.setOrigin( "Sresume", CharacterDisplay::Align::Center);
+	characterDisplay.setCharacter("Sreplay", "Dosis", "Replay", TextPos + sf::Vector2f(0, 210), 150);
+	characterDisplay.setOrigin("Sreplay", CharacterDisplay::Align::Center);
+	characterDisplay.setCharacter("Sback", "Dosis", "Back Menu", TextPos + sf::Vector2f(0, 420), 150);
+	characterDisplay.setOrigin("Sback", CharacterDisplay::Align::Center);
+
+	characterDisplay.setCharacter("Lcursor", "Dosis", ">", TextPos + sf::Vector2f(-400, -50), 200);
+	characterDisplay.setOrigin("Lcursor", CharacterDisplay::Align::Left);
 
 	sceneMovement.initialize(0);
 }
 
 int Pause::update(Scene*& n)
 {
+
 	//ƒuƒ‰ƒbƒN
 	sceneMovement.update();
 
@@ -45,10 +50,11 @@ int Pause::update(Scene*& n)
 	if (keyManager.push_key(sf::Keyboard::Up)) m_select_cursor -= (m_select_cursor > 0) ? 1 : 0;
 	if (keyManager.push_key(sf::Keyboard::Down)) m_select_cursor += (m_select_cursor < 2) ? 1 : 0;
 
-	for (int i = 0; i < 3; i++) m_menu[i].setCharacterSize(130);
-	m_menu[m_select_cursor].setCharacterSize(150);
-
-	//cout << m_select_cursor << endl;
+	string key[3] = { "Sresume","Sreplay", "Sback" };
+	for (int i = 0; i < 3; i++) characterDisplay.changeColor( key[i], sf::Color(255,255,255,100));
+	characterDisplay.changeColor(key[m_select_cursor], sf::Color(255, 255, 255, 255));
+	
+	characterDisplay.changePosition("Lcursor", sf::Vector2f(sin(m_clock.getElapsedTime().asSeconds())*20 + TextPos.x - 400, characterDisplay.getPosition(key[m_select_cursor]).y - 50));
 
 	//‘I‘ð
 	static bool scene;
@@ -74,20 +80,23 @@ int Pause::update(Scene*& n)
 		if (scene) n = new GameScene;
 		if (!scene) {
 			SelectScene s;
-			s.setBlackZindex(false);
+			s.setBlackZindex(true);
 			n = new SelectScene;
 		}
 	}
+
+	//bg
+	m_shad.setParameter("time", m_clock.getElapsedTime().asSeconds());
 
 	return 3;
 }
 
 void Pause::render()
 {
-	windowManager.getWindow()->draw(m_bg);
-	for (int i = 0; i < 3; i++)
-	{
-		windowManager.getWindow()->draw(m_menu[i]);
-	}
+	windowManager.getWindow()->draw(m_bg, m_state);
+	characterDisplay.render("Sresume");
+	characterDisplay.render("Sreplay");
+	characterDisplay.render("Sback");
+	characterDisplay.render("Lcursor");
 	sceneMovement.render();
 }

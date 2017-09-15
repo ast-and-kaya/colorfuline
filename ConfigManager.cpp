@@ -43,7 +43,7 @@ void ConfigManager::initialize()
 
 	//マジックナンバー
 	m_lane_distance = 940;//レーンの距離
-	m_start_margin = 5.0f;//
+	m_start_margin = 3.0f;//
 	//判定時間
 	float frame = 1.f / 60.f;
 	m_judge_frame[0] = frame * 2;//perfect

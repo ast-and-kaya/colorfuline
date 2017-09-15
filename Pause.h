@@ -6,6 +6,8 @@ class Scene;
 #include "TextureManager.h"
 #include "SceneMovement.h"
 
+#include "CharacterDisplay.h"
+
 class Pause
 {
 public:
@@ -21,12 +23,16 @@ private:
 	WindowManager windowManager;
 	TextureManager tex;
 	SceneMovement sceneMovement;
+	CharacterDisplay characterDisplay;
 
 	int m_select_cursor;
+	sf::Vector2f TextPos;
 
 	sf::Sprite m_bg;
 
-	sf::Font m_font;
-	sf::Text m_menu[3];
+	sf::RenderStates m_state;
+	sf::Shader m_shad;
+
+	sf::Clock m_clock;
 };
 

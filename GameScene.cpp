@@ -17,7 +17,7 @@ void GameScene::initialize()
 	m_game_state = 0;
 
 	m_score = 0;
-	m_perfect = 0;
+	m_great = 0;
 	m_maxcombo = 0;
 
 	m_combo = 0;
@@ -80,7 +80,7 @@ Scene* GameScene::update()
 	case 3://stop
 		m_game_state = pause.update(next);
 		if (m_game_state == 1) {
-			m_music.start();
+			if (config.getStartMargin() <= timer.getTime()) m_music.start();
 			timer.start();
 		}
 		break;
@@ -113,11 +113,10 @@ void GameScene::render()
 
 	if (m_black_zindex)sceneMovement.render();
 
-	musicGuide.render();
-
 	//ƒ|[ƒY‰æ–Ê
 	if(m_game_state == 3) pause.render();
 
+	musicGuide.render();
 }
 
 void GameScene::playBefore() {
@@ -146,15 +145,15 @@ void GameScene::playNow() {
 
 		switch (judge)
 		{
-		case 1://perfect
-			m_score += 100;
-			m_perfect++;
-			break;
-		case 2://great
-			m_score += 10;
-			break;
-		case 3://good
+		case 1://great
 			m_score += 1;
+			m_great++;
+			break;
+		case 2://good
+			m_score += 0.1;
+			break;
+		case 3://bad
+			m_score += 0.01;
 			break;
 		}
 		m_note.erase(m_note.begin());
@@ -207,7 +206,7 @@ void GameScene::playAfter(Scene*& n) {
 	{
 		m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
 		ResultScene result;
-		result.setScereData(m_score / 100.f, m_maxcombo, m_perfect, musicScore.getSize());
+		result.setScereData(m_score, m_maxcombo, m_great, musicScore.getSize());
 		n = new ResultScene;
 	}
 }

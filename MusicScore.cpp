@@ -21,9 +21,9 @@ void MusicScore::Loading()
 
 	string diff[3] = { "easy", "normal", "hard"};
 
-	m_path = "data/music/" + musicManager.getFolderList(config.getNowMusic(config.Num)) + "/score_" + diff[config.getNowMusic(config.Diff)] + ".cfl";
+	m_path = "data/music/" + musicManager.getFolderList(config.getNowMusic(config.Num)) + "/score_" + diff[config.getNowMusic(config.Diff)] + ".json";
 
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 999; i++) {
 		m_data.push_back(Data());
 		m_data[i].time = i*(60.f / 162.f) + 0.1;
 		m_data[i].color =  c[rand() % 3];

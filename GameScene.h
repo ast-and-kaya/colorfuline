@@ -61,7 +61,7 @@ private:
 	int m_game_state;
 
 	float m_score;
-	int m_perfect;
+	int m_great;
 	int m_maxcombo;
 
 	int m_combo;

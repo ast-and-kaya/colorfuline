@@ -50,6 +50,11 @@ void TextureManager::Loading() {
 	//ƒŠƒUƒ‹ƒg
 	m_texture.insert(map<string, sf::Texture>::value_type("result_select", sf::Texture()));
 	m_texture["result_select"].loadFromFile("data/image/result/select_line.png");
+
+	for (auto& it : m_texture)
+	{
+		it.second.setSmooth(true);
+	}
 }
 
 sf::Texture& TextureManager::get(string key) {

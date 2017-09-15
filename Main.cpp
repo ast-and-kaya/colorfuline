@@ -34,12 +34,14 @@ int main()
 	windowManager.setWindowActive(true);
 
 	Scene* m_scene;
-	//m_scene = new TestRoom;
-	m_scene = new TitleScene;
+	m_scene = new TestRoom;
+	//m_scene = new TitleScene;
 	m_scene->initialize();
 
 	while (m_window.isOpen())
 	{
+		sf::Clock c;
+
 		sf::Event event;
 
 		while (m_window.pollEvent(event))
@@ -63,6 +65,8 @@ int main()
 		m_scene->render();
 
 		m_window.display();
+
+		//cout << c.getElapsedTime().asSeconds() << endl;
 	}
 
 	return 0;

@@ -2,7 +2,7 @@
 
 float ResultScene::m_result_score;
 int ResultScene::m_result_combo;
-int ResultScene::m_result_perfect;
+int ResultScene::m_result_great;
 
 int ResultScene::m_result_note_number;
 
@@ -29,19 +29,23 @@ void ResultScene::initialize()
 	characterDisplay.setFont("Dosis", "data/font/Dosis-Light.ttf");
 	//スコア等の文字
 	//スコア
-	characterDisplay.setCharacter("Iscore", "Dosis", "SCORE", sf::Vector2f(900, 158), 176, sf::Color( 0, 0, 0, 30));
+	characterDisplay.setCharacter("Iscore", "Dosis", "SCORE", sf::Vector2f(1000, 158), 176, sf::Color( 0, 0, 0, 50));
 	string s = to_string(m_result_score);
 	for (int i = 0; i < 4; i++) s.pop_back();
-	characterDisplay.setCharacter("Sscore", "Dosis", s, sf::Vector2f(1920, 205), 130, sf::Color(0, 0, 0, 255));
+	characterDisplay.setCharacter("Sscore", "Dosis", s + "%", sf::Vector2f(1860, 224), 110, sf::Color(0, 0, 0, 255));
 	characterDisplay.setOrigin("Sscore", CharacterDisplay::Align::Right);
 	//コンボ
-	characterDisplay.setCharacter("Icombo", "Dosis", "COMBO", sf::Vector2f(900, 430), 176, sf::Color(0, 0, 0, 30));
-	characterDisplay.setCharacter("Scombo", "Dosis", to_string(m_result_combo), sf::Vector2f(1920, 475), 130, sf::Color(0, 0, 0, 255));
+	characterDisplay.setCharacter("Icombo", "Dosis", "COMBO", sf::Vector2f(1000, 430), 176, sf::Color(0, 0, 0, 50));
+	characterDisplay.setCharacter("Scombo_sub", "Dosis", "/" +to_string(m_result_note_number), sf::Vector2f(1860, 544), 60, sf::Color(0, 0, 0, 255));
+	characterDisplay.setOrigin("Scombo_sub", CharacterDisplay::Align::Right);
+	characterDisplay.setCharacter("Scombo", "Dosis", to_string(m_result_combo), sf::Vector2f(1830 - characterDisplay.getBox("Scombo_sub").x, 475), 130, sf::Color(0, 0, 0, 255));
 	characterDisplay.setOrigin("Scombo", CharacterDisplay::Align::Right);
 	//パーフェクト
-	characterDisplay.setCharacter("Iperfect", "Dosis", "PERFECT", sf::Vector2f(900, 698), 176, sf::Color(0, 0, 0, 30));
-	characterDisplay.setCharacter("Sperfect", "Dosis", to_string(m_result_perfect), sf::Vector2f(1920, 745), 130, sf::Color(0, 0, 0, 255));
-	characterDisplay.setOrigin("Sperfect", CharacterDisplay::Align::Right);
+	characterDisplay.setCharacter("Igreat", "Dosis", "GREAT", sf::Vector2f(1000, 698), 176, sf::Color(0, 0, 0, 50));
+	characterDisplay.setCharacter("Sgreat_sub", "Dosis", "/" + to_string(m_result_note_number), sf::Vector2f(1860, 812), 60, sf::Color(0, 0, 0, 255));
+	characterDisplay.setOrigin("Sgreat_sub", CharacterDisplay::Align::Right);
+	characterDisplay.setCharacter("Sgreat", "Dosis", to_string(m_result_great), sf::Vector2f(1830 - characterDisplay.getBox("Sgreat_sub").x, 745), 130, sf::Color(0, 0, 0, 255));
+	characterDisplay.setOrigin("Sgreat", CharacterDisplay::Align::Right);
 
 	//メニュー
 	characterDisplay.setCharacter("retry", "Dosis", "Retry", sf::Vector2f(120, 850), 120);
@@ -103,11 +107,13 @@ void ResultScene::render()
 
 	characterDisplay.render("Iscore");
 	characterDisplay.render("Icombo");
-	characterDisplay.render("Iperfect");
+	characterDisplay.render("Igreat");
 
 	characterDisplay.render("Sscore");
+	characterDisplay.render("Scombo_sub");
 	characterDisplay.render("Scombo");
-	characterDisplay.render("Sperfect");
+	characterDisplay.render("Sgreat_sub");
+	characterDisplay.render("Sgreat");
 
 	characterDisplay.render("next");
 	characterDisplay.render("retry");
@@ -119,9 +125,10 @@ void ResultScene::render()
 }
 
 
-void ResultScene::setScereData(float score, int combo, int perfect, int note) {
+void ResultScene::setScereData(float score, int combo, int great, int note) {
 	m_result_score = score;
 	m_result_combo = combo;
-	m_result_perfect = perfect;
+	m_result_great = great;
 	m_result_note_number = note;
+	cout << m_result_note_number << endl;
 }
