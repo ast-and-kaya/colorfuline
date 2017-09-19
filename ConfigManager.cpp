@@ -12,6 +12,8 @@ int ConfigManager::m_black_time;
 
 float ConfigManager::m_preview_fade;
 
+int ConfigManager::m_raw_score[3];
+
 ConfigManager::ConfigManager()
 {
 }
@@ -43,7 +45,7 @@ void ConfigManager::initialize()
 
 	//マジックナンバー
 	m_lane_distance = 940;//レーンの距離
-	m_start_margin = 3.0f;//
+	m_start_margin = 5.0f;//
 	//判定時間
 	float frame = 1.f / 60.f;
 	m_judge_frame[0] = frame * 2;//perfect
@@ -53,6 +55,10 @@ void ConfigManager::initialize()
 	m_black_time = 5;
 	//プレビューのフェード秒数
 	m_preview_fade = 3.0f;
+	//スコア　素点
+	m_raw_score[0] = 300;
+	m_raw_score[1] = 100;
+	m_raw_score[2] = 10;
 }
 
 void ConfigManager::setNowMusicNum(int num) {
@@ -90,4 +96,9 @@ int ConfigManager::getBlackTime()
 float ConfigManager::getPreviewFade()
 {
 	return m_preview_fade;
+}
+
+int ConfigManager::getRawScore(int num)
+{
+	return m_raw_score[num];
 }

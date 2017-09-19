@@ -32,6 +32,8 @@ public:
 	};
 	void setOrigin(string key, Align align);
 
+	void setOrigin(string key, sf::Vector2f vec);
+
 	sf::Vector2f getBox(string key);
 
 private:

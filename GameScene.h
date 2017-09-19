@@ -17,6 +17,7 @@
 #include "VisualEffect.h"
 #include "MusicGuide.h"
 #include "MusicScore.h"
+#include "ScoreCalc.h"
 
 #include "Note.h"
 #include "Pause.h"
@@ -56,6 +57,7 @@ private:
 	VisualEffect visualEffect;
 	MusicGuide musicGuide;
 	MusicScore musicScore;
+	ScoreCalc scoreCalc;
 
 	//ÉQÅ[ÉÄÇÃèÛë‘Å@0:before 1:now 2:after 3:stop
 	int m_game_state;

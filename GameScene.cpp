@@ -32,7 +32,7 @@ void GameScene::initialize()
 
 	//ノート追加
 	musicScore.Loading();
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < musicScore.getSize(); i++) {
 		m_note.push_back(Note());
 		m_note[i].setNote(musicScore.getData(i).time, musicScore.getData(i).color);
 	}
@@ -45,7 +45,8 @@ void GameScene::initialize()
 	characterDisplay.setFont("Dosis", "data/font/Dosis-Light.ttf");
 	characterDisplay.setFont("tegaki", "data/font/851tegaki.ttf");
 	//文字
-	characterDisplay.setCharacter("score", "Dosis", to_string((int)m_score), sf::Vector2f(100, 780),160);
+	characterDisplay.setCharacter("score", "Dosis", to_string((int)m_score), sf::Vector2f(680, 780),160);
+	characterDisplay.setOrigin("score", sf::Vector2f(500,0));
 	characterDisplay.setCharacter("combo", "Dosis", "x" + to_string((int)m_combo), sf::Vector2f(1600, 780),160);
 
 	keyJudge.initialize();
@@ -53,6 +54,8 @@ void GameScene::initialize()
 	supportLine.initialize();
 	sceneMovement.initialize();
 	sceneMovement.In();
+
+	scoreCalc.setMaxScore(musicScore.getSize(), config.getRawScore(0));
 }
 
 
@@ -146,14 +149,14 @@ void GameScene::playNow() {
 		switch (judge)
 		{
 		case 1://great
-			m_score += 1;
+			m_score += scoreCalc.add( m_combo, config.getRawScore(0));
 			m_great++;
 			break;
 		case 2://good
-			m_score += 0.1;
+			m_score += scoreCalc.add(m_combo, config.getRawScore(1));
 			break;
 		case 3://bad
-			m_score += 0.01;
+			m_score += scoreCalc.add(m_combo, config.getRawScore(2));
 			break;
 		}
 		m_note.erase(m_note.begin());
@@ -180,7 +183,9 @@ void GameScene::playNow() {
 	//cout << f << endl;
 
 	//スコア表示更新
-	characterDisplay.changeString("score", to_string((int)m_score));
+	string s = to_string(m_score / scoreCalc.getMaxScore() * 100.f);
+	for (int i = 0; i < 4; i++) s.pop_back();
+	characterDisplay.changeString("score", s);
 	characterDisplay.changeString("combo", "x" + to_string((int)m_combo));
 
 	//アフター移動
@@ -206,7 +211,7 @@ void GameScene::playAfter(Scene*& n) {
 	{
 		m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
 		ResultScene result;
-		result.setScereData(m_score, m_maxcombo, m_great, musicScore.getSize());
+		result.setScereData(m_score / scoreCalc.getMaxScore() * 100.f, m_maxcombo, m_great, musicScore.getSize());
 		n = new ResultScene;
 	}
 }

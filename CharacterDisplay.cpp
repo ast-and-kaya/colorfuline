@@ -68,6 +68,11 @@ void CharacterDisplay::setOrigin(string key, Align align)
 	}
 }
 
+void CharacterDisplay::setOrigin(string key, sf::Vector2f vec)
+{
+	m_text[key].setOrigin(vec);
+}
+
 sf::Vector2f CharacterDisplay::getBox(string key)
 {
 	return sf::Vector2f( m_text[key].getGlobalBounds().width, m_text[key].getGlobalBounds().height);

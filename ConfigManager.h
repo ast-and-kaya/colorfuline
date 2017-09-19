@@ -31,7 +31,7 @@ public:
 	float getJudgeFrame(int f);//”»’èŠÔ
 	int getBlackTime();//ˆÃ“]ŠÔ
 	float getPreviewFade();//ƒvƒŒƒrƒ…[
-
+	int getRawScore(int num);
 
 private:
 	static int m_music_num;
@@ -44,5 +44,7 @@ private:
 	static int m_black_time;
 
 	static float m_preview_fade;
+
+	static int m_raw_score[3];
 };
 
