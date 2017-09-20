@@ -6,7 +6,7 @@
 
 #include "TestRoom.h"
 #include "TitleScene.h"
-#include "SelectScene.h"
+#include "LoadingScene.h"
 
 using namespace std;
 
@@ -35,7 +35,7 @@ int main()
 
 	Scene* m_scene;
 	//m_scene = new TestRoom;
-	m_scene = new TitleScene;
+	m_scene = new LoadingScene;
 	m_scene->initialize();
 
 	while (m_window.isOpen())

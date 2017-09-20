@@ -21,7 +21,7 @@ void SupportLine::initialize()
 	m_shad.setParameter("r", sf::Vector2f(windowManager.getWindow()->getSize().x, windowManager.getWindow()->getSize().y));
 	m_state.shader = &m_shad;
 
-	tex_test.loadFromFile("data/image/test_bg.png");
+	//tex_test.loadFromFile("data/image/test_bg.png");
 	test.setTexture(tex_test);
 }
 

@@ -5,6 +5,9 @@
 
 #include "TextureManager.h"
 
+#include <stdio.h>
+#include <windows.h>
+
 using namespace std;
 
 class TestRoom :

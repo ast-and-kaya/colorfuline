@@ -25,16 +25,16 @@ public:
 	FFT();
 	~FFT();
 
-	void init(string const& _path);
+	void init(int num);
 
 	void fft(CArray &x) ;
 	void update(float is_time = 0);
 
-	vector<int> getData();
-	bool getLoadEnd();
+	void setBufferData(vector<sf::SoundBuffer> buff);
 
-	static void load();
-	static sf::SoundBuffer buffer ;
+	vector<int> getData();
+
+	static vector<sf::SoundBuffer> buffer ;
 	static string m_path;
 
 private:
@@ -49,6 +49,6 @@ private:
 
 	vector<int> data;
 
-	static bool m_load_end;
+	int m_num;
 };
 

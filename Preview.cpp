@@ -35,10 +35,10 @@ void Preview::update()
 		m_end_time = musicManager.getItem(m_back_number).preview[1];
 
 		string folder_name = musicManager.getFolderList(config.getNowMusic(config.Num));
-		m_music.Load(folder_name, "data/music/" + folder_name + "/music.wav");
+		m_music.Load(folder_name, "data/music/" + folder_name + "/music.ogg");
 		m_music.start(m_start_time, 0.0f);
 
-		fft.init("data/music/" + folder_name + "/music.wav");
+		fft.init(config.getNowMusic(config.Num));
 
 		nowPlaying.reset();
 	} 
@@ -84,9 +84,7 @@ void Preview::update()
 
 void Preview::render()
 {
-	if (fft.getLoadEnd()) {
-		windowManager.getWindow()->draw(VA2);
-	}
+	windowManager.getWindow()->draw(VA2);
 	nowPlaying.render();
 }
 

@@ -26,9 +26,9 @@ void GameScene::initialize()
 
 	//音楽ファイル読み込み
 	string folder_name = musicManager.getFolderList(config.getNowMusic(config.Num));
-	m_music.Load(folder_name, "data/music/" + folder_name + "/music.wav");
+	m_music.Load(folder_name, "data/music/" + folder_name + "/music.ogg");
 
-	visualEffect.initialize("data/music/" + folder_name + "/music.wav");
+	visualEffect.initialize();
 
 	//ノート追加
 	musicScore.Loading();

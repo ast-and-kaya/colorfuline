@@ -1,8 +1,6 @@
 #include "FFT.h"
 
-sf::SoundBuffer FFT::buffer;
-string FFT::m_path;
-bool FFT::m_load_end;
+vector<sf::SoundBuffer> FFT::buffer;
 
 FFT::FFT()
 {
@@ -12,19 +10,15 @@ FFT::~FFT() {
 
 }
 
-void FFT::init(string const& path) {
-	m_path = path;
+void FFT::init(int num) {
 
-	m_load_end = false;
+	m_num = num;
 
 	bufferSize = 16384;
 	sample.resize(bufferSize);
 	for (int i(0); i < bufferSize; i++) window.push_back(0.54 - 0.46*cos(2 * PI*i / (float)bufferSize));
 
 	mark = 0;
-
-	HANDLE handle;
-	handle = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)load, NULL, 0, 0);
 
 }
 
@@ -50,40 +44,32 @@ void FFT::fft(CArray &x)
 
 void FFT::update(float is_time)
 {
-	if (m_load_end) {
-		mark = is_time * (44100 * 2);
-		for (int i(mark); i < bufferSize + mark; i++)
-		{
-			sample[i - mark] = Complex(buffer.getSamples()[i] * window[i - mark], 0);
-		}
-
-		bin = CArray(sample.data(), bufferSize);
-		fft(bin);
-
-		int cnt = 0;
-		data.clear();
-		for (float i(1); i < bufferSize / 4.f; i *= 1.01)
-		{
-			if (cnt % 4 == 0) data.push_back(0);
-			data[data.size() - 1] += abs(bin[(int)i]);
-
-			cnt++;
-		}
+	mark = is_time * (44100 * 2);
+	for (int i(mark); i < bufferSize + mark; i++)
+	{
+		sample[i - mark] = Complex(buffer[m_num].getSamples()[i] * window[i - mark], 0);
 	}
 
+	bin = CArray(sample.data(), bufferSize);
+	fft(bin);
+
+	int cnt = 0;
+	data.clear();
+	for (float i(1); i < bufferSize / 4.f; i *= 1.01)
+	{
+		if (cnt % 4 == 0) data.push_back(0);
+		data[data.size() - 1] += abs(bin[(int)i]);
+
+		cnt++;
+	}
+}
+
+void FFT::setBufferData(vector<sf::SoundBuffer> buff)
+{
+	buffer = buff;
 }
 
 vector<int> FFT::getData()
 {
 	return data;
-}
-
-bool FFT::getLoadEnd()
-{
-	return m_load_end;
-}
-
-void FFT::load()
-{
-	if (buffer.loadFromFile(m_path)) m_load_end = true;
 }

@@ -16,8 +16,13 @@ void TextureManager::Loading() {
 	m_texture.insert(map<string, sf::Texture>::value_type("black", sf::Texture()));
 	m_texture["black"].loadFromFile("data/image/black.png");
 
+	//ロード
+	m_texture.insert(map<string, sf::Texture>::value_type("loading_bg", sf::Texture()));
+	m_texture["loading_bg"].loadFromFile("data/image/Loading/background.png");
+	m_texture.insert(map<string, sf::Texture>::value_type("loading_rote", sf::Texture()));
+	m_texture["loading_rote"].loadFromFile("data/image/Loading/rote.png");
+
 	//タイトル
-	
 	m_texture.insert(map<string, sf::Texture>::value_type("title_logo", sf::Texture()));
 	m_texture["title_logo"].loadFromFile("data/image/title/logo.png");
 	

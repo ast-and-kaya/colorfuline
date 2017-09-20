@@ -11,14 +11,13 @@ VisualEffect::~VisualEffect()
 {
 }
 
-void VisualEffect::initialize(string path)
+void VisualEffect::initialize()
 {
 	//fft
-	fft.init(path);
-	VA2.setPrimitiveType(sf::Lines);
+	fft.init(config.getNowMusic(config.Num));
+	VA.setPrimitiveType(sf::Lines);
 
 	//value
-	soundValue.setFilePass(path);
 	m_sprite.setTexture(tex.get("black"));
 
 	shader.loadFromFile("data/shader/game_ring.frag", sf::Shader::Fragment);
@@ -30,24 +29,30 @@ void VisualEffect::updata(float time)
 {
 	time = (time < 0) ? 0 : time;
 
+	m_sound_value = 0;
+
 	//fft
 	fft.update(time);
 
 	data = fft.getData();
 
-	VA2.clear();
+	VA.clear();
 	sf::Vector2f position(0, 470);
 	for (int i = 0; i < data.size(); i++)
 	{
-		VA2.append(sf::Vertex(position + sf::Vector2f(i * 10, -data[i] / 150000), sf::Color(255,255,255,0)));
-		VA2.append(sf::Vertex(position + sf::Vector2f(i * 10, 0), sf::Color::White));
-		VA2.append(sf::Vertex(position + sf::Vector2f(i * 10, 0), sf::Color::White));
-		VA2.append(sf::Vertex(position + sf::Vector2f(i * 10, data[i] / 150000), sf::Color(255, 255, 255, 0)));
+		VA.append(sf::Vertex(position + sf::Vector2f(i * 10, -data[i] / 150000), sf::Color(255,255,255,0)));
+		VA.append(sf::Vertex(position + sf::Vector2f(i * 10, 0), sf::Color::White));
+		VA.append(sf::Vertex(position + sf::Vector2f(i * 10, 0), sf::Color::White));
+		VA.append(sf::Vertex(position + sf::Vector2f(i * 10, data[i] / 150000), sf::Color(255, 255, 255, 0)));
+
+		m_sound_value += data[i] / (data.size() - i);
 	}
 
+	cout << m_sound_value << endl;
+
 	//value
-	sf::Vector2f value(soundValue.getValue(time, 0), soundValue.getValue(time, 1));
-	shader.setParameter("v", sf::Vector2f(value.x / 32768.f, value.y / 32768.f));
+	float a = m_sound_value / 20000000.f;
+	shader.setParameter("v", sf::Vector2f(a, a));
 
 
 	//‰º•”ƒtƒHƒO
@@ -72,5 +77,5 @@ void VisualEffect::updata(float time)
 void VisualEffect::render()
 {
 	windowManager.getWindow()->draw(m_sprite, state);
-	windowManager.getWindow()->draw(VA2);
+	windowManager.getWindow()->draw(VA);
 }
