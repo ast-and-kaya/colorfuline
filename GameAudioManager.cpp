@@ -58,6 +58,11 @@ float GameAudioManager::getVolume()
 	return m_music[m_back_key]->getVolume();
 }
 
+bool GameAudioManager::getState()
+{
+	return m_music[m_back_key]->getStatus();
+}
+
 void GameAudioManager::setOffset(float time)
 {
 	m_music[m_back_key]->setPlayingOffset(sf::seconds(time));

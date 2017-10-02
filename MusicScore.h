@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 
+#include "picojson.h"
+
 using namespace std;
 
 class MusicScore
@@ -29,5 +31,6 @@ private:
 
 	vector<Data> m_data;
 	string m_path;
+
 };
 

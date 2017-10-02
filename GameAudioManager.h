@@ -13,12 +13,13 @@ public:
 	~GameAudioManager();
 
 	void Load(string key, string path);
-	void start(float time = -1,float volume = 2.0f, bool loop = true);
+	void start(float time = -1,float volume = 2.0f, bool loop = false);
 	void pause();
 	void stop();
 	float getOffset();
 	float getDuration();
 	float getVolume();
+	bool getState();
 	void setOffset(float time);
 	void setVolume(float volume);
 

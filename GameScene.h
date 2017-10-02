@@ -18,6 +18,8 @@
 #include "MusicGuide.h"
 #include "MusicScore.h"
 #include "ScoreCalc.h"
+#include "TimeCourse.h"
+#include "HitEffect.h"
 
 #include "Note.h"
 #include "Pause.h"
@@ -58,6 +60,8 @@ private:
 	MusicGuide musicGuide;
 	MusicScore musicScore;
 	ScoreCalc scoreCalc;
+	TimeCourse timeCourse;
+	HitEffect hitEffect;
 
 	//ÉQÅ[ÉÄÇÃèÛë‘Å@0:before 1:now 2:after 3:stop
 	int m_game_state;

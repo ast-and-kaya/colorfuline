@@ -20,9 +20,9 @@ void KeyJudge::initialize()
 
 void KeyJudge::update()
 {
-	if (keyManager.push_key(sf::Keyboard::J) && m_cnt[0] == 0) m_cnt[0] = 5;
-	if (keyManager.push_key(sf::Keyboard::K) && m_cnt[1] == 0) m_cnt[1] = 5;
-	if (keyManager.push_key(sf::Keyboard::L) && m_cnt[2] == 0) m_cnt[2] = 5;
+	if (keyManager.push_key(sf::Keyboard::J) && m_cnt[0] == 0) m_cnt[0] = 6;
+	if (keyManager.push_key(sf::Keyboard::K) && m_cnt[1] == 0) m_cnt[1] = 6;
+	if (keyManager.push_key(sf::Keyboard::L) && m_cnt[2] == 0) m_cnt[2] = 6;
 
 	for (int i = 0; i < 3; i++)
 	{

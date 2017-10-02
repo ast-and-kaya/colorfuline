@@ -21,6 +21,8 @@ public:
 	void updata(float time);
 	void render();
 
+	void setColor(sf::Color c);
+
 private:
 	WindowManager windowManager;
 	ConfigManager config;
@@ -29,7 +31,7 @@ private:
 
 	FFT fft;
 	vector<int> data;
-	sf::VertexArray VA;
+	sf::VertexArray m_va;
 
 	sf::RenderStates state;
 	sf::Shader shader;

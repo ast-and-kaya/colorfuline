@@ -30,11 +30,11 @@ public:
 	void fft(CArray &x) ;
 	void update(float is_time = 0);
 
-	void setBufferData(vector<sf::SoundBuffer> buff);
+	void setBufferData(const vector<sf::SoundBuffer>& buff);
 
 	vector<int> getData();
 
-	static vector<sf::SoundBuffer> buffer ;
+	static vector<sf::SoundBuffer> buffer;
 	static string m_path;
 
 private:

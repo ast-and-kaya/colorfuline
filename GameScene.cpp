@@ -34,7 +34,7 @@ void GameScene::initialize()
 	musicScore.Loading();
 	for (int i = 0; i < musicScore.getSize(); i++) {
 		m_note.push_back(Note());
-		m_note[i].setNote(musicScore.getData(i).time, musicScore.getData(i).color);
+		m_note[i].setNote(musicScore.getData(i).time+(0.016*7), musicScore.getData(i).color);
 	}
 
 	//判定ライン
@@ -52,6 +52,8 @@ void GameScene::initialize()
 	keyJudge.initialize();
 	pause.initialize();
 	supportLine.initialize();
+	timeCourse.initialize();
+	hitEffect.initialize();
 	sceneMovement.initialize();
 	sceneMovement.In();
 
@@ -67,7 +69,9 @@ Scene* GameScene::update()
 	timer.update();
 	sceneMovement.update();
 	judgeLine.update();
-	visualEffect.updata(m_music.getOffset());
+	timeCourse.update(m_music.getOffset(),m_music.getDuration());
+
+	//cout << m_music.getDuration() << endl;
 
 	switch (m_game_state)
 	{
@@ -99,9 +103,14 @@ void GameScene::render()
 
 	//supportLine.render();
 
+	//ヒット時のエフェクト
+	hitEffect.render();
+
 	//文字
 	characterDisplay.render("score");
 	characterDisplay.render("combo");
+
+	timeCourse.render();
 
 	if (!m_black_zindex)sceneMovement.render();
 
@@ -134,9 +143,11 @@ void GameScene::playBefore() {
 void GameScene::playNow() {
 
 	//曲スタート
-	if (config.getStartMargin() <= timer.getTime()) {
+	if (m_note.size() != 0 && config.getStartMargin() <= timer.getTime()) {
 		m_music.start();//再生中は無効
 	}
+
+	visualEffect.updata(m_music.getOffset());
 
 	int judge = m_note[0].judge(timer.getTime() - config.getStartMargin(), keyJudge.getKeyColor());
 
@@ -145,6 +156,7 @@ void GameScene::playNow() {
 	{
 		//cout << judge << endl;
 		m_combo++;
+		hitEffect.action();
 
 		switch (judge)
 		{
@@ -159,17 +171,25 @@ void GameScene::playNow() {
 			m_score += scoreCalc.add(m_combo, config.getRawScore(2));
 			break;
 		}
-		m_note.erase(m_note.begin());
+		if (m_note.begin() != m_note.end()) {
+			m_note.erase(m_note.begin());
+		}
+		
 	}
+	hitEffect.update();
 
 	//画面外(ミス)判定
-	if (m_note[0].rangeOut(timer.getTime() - config.getStartMargin()))
+	if (!m_note.empty())
 	{
-		//コンボ中断と更新
-		m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
-		m_combo = 0;
-		m_note.erase(m_note.begin());
+		if (m_note[0].rangeOut(timer.getTime() - config.getStartMargin()))
+		{
+			//コンボ中断と更新
+			m_maxcombo = (m_maxcombo < m_combo) ? m_combo : m_maxcombo;
+			m_combo = 0;
+			m_note.erase(m_note.begin());
+		}
 	}
+	
 
 	for (auto& it : m_note)
 	{
@@ -189,7 +209,8 @@ void GameScene::playNow() {
 	characterDisplay.changeString("combo", "x" + to_string((int)m_combo));
 
 	//アフター移動
-	if (m_note.size() == 0 || keyManager.push_key(sf::Keyboard::Return)){
+	//if (keyManager.push_key(sf::Keyboard::Return)) {
+	if (m_note.size() == 0 && !m_music.getState()){
 		m_music.stop();
 		sceneMovement.In();
 		m_black_zindex = true;

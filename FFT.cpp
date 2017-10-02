@@ -44,11 +44,19 @@ void FFT::fft(CArray &x)
 
 void FFT::update(float is_time)
 {
+
 	mark = is_time * (44100 * 2);
-	for (int i(mark); i < bufferSize + mark; i++)
+
+	//cout << is_time << ":" << buffer[m_num].getSampleCount() / (44100 * 2.f) << endl;
+
+	if (is_time < buffer[m_num].getSampleCount() / (44100 * 2.f) - 1.f)
 	{
-		sample[i - mark] = Complex(buffer[m_num].getSamples()[i] * window[i - mark], 0);
-	}
+		for (int i(mark); i < bufferSize + mark; i++)
+		{
+			sample[i - mark] = Complex(buffer[m_num].getSamples()[i] * window[i - mark], 0);	
+		}
+	}	
+
 
 	bin = CArray(sample.data(), bufferSize);
 	fft(bin);
@@ -58,13 +66,13 @@ void FFT::update(float is_time)
 	for (float i(1); i < bufferSize / 4.f; i *= 1.01)
 	{
 		if (cnt % 4 == 0) data.push_back(0);
-		data[data.size() - 1] += abs(bin[(int)i]);
+		data[data.size() - 1] += (is_time != 0) ? abs(bin[(int)i]) : 0;
 
 		cnt++;
 	}
 }
 
-void FFT::setBufferData(vector<sf::SoundBuffer> buff)
+void FFT::setBufferData(const vector<sf::SoundBuffer>& buff)
 {
 	buffer = buff;
 }

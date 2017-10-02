@@ -54,11 +54,11 @@ void ConfigManager::initialize()
 	//暗転スピード
 	m_black_time = 5;
 	//プレビューのフェード秒数
-	m_preview_fade = 3.0f;
+	m_preview_fade = 3.0f; 
 	//スコア　素点
 	m_raw_score[0] = 300;
-	m_raw_score[1] = 100;
-	m_raw_score[2] = 10;
+	m_raw_score[1] = 250;
+	m_raw_score[2] = 50;
 }
 
 void ConfigManager::setNowMusicNum(int num) {

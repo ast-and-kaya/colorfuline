@@ -4,9 +4,7 @@
 #include <iostream>
 
 #include "TextureManager.h"
-
-#include <stdio.h>
-#include <windows.h>
+#include "HitEffect.h"
 
 using namespace std;
 
@@ -26,6 +24,8 @@ private:
 	KeyManager keyManager;
 	MouseManager mouseManager;
 	TextureManager tex;
+
+	HitEffect hitEffect;
 
 	sf::Sprite m_bg;
 	sf::Texture m_tex;

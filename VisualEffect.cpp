@@ -15,7 +15,7 @@ void VisualEffect::initialize()
 {
 	//fft
 	fft.init(config.getNowMusic(config.Num));
-	VA.setPrimitiveType(sf::Lines);
+	m_va.setPrimitiveType(sf::Lines);
 
 	//value
 	m_sprite.setTexture(tex.get("black"));
@@ -31,35 +31,35 @@ void VisualEffect::updata(float time)
 
 	m_sound_value = 0;
 
+	//キー入力時のカラー
+	m_sub_color[0] = (keyJudge.getKeyColor().r != 0) ? 255 : m_sub_color[0];
+	m_sub_color[1] = (keyJudge.getKeyColor().g != 0) ? 255 : m_sub_color[1];
+	m_sub_color[2] = (keyJudge.getKeyColor().b != 0) ? 255 : m_sub_color[2];
+
 	//fft
 	fft.update(time);
 
 	data = fft.getData();
 
-	VA.clear();
+	m_va.clear();
 	sf::Vector2f position(0, 470);
 	for (int i = 0; i < data.size(); i++)
 	{
-		VA.append(sf::Vertex(position + sf::Vector2f(i * 10, -data[i] / 150000), sf::Color(255,255,255,0)));
-		VA.append(sf::Vertex(position + sf::Vector2f(i * 10, 0), sf::Color::White));
-		VA.append(sf::Vertex(position + sf::Vector2f(i * 10, 0), sf::Color::White));
-		VA.append(sf::Vertex(position + sf::Vector2f(i * 10, data[i] / 150000), sf::Color(255, 255, 255, 0)));
+		m_va.append(sf::Vertex(position + sf::Vector2f(i * 10, -data[i] / 150000), sf::Color(m_sub_color[0],m_sub_color[1],m_sub_color[2],0)));
+		m_va.append(sf::Vertex(position + sf::Vector2f(i * 10, 0), sf::Color::White));
+		m_va.append(sf::Vertex(position + sf::Vector2f(i * 10, 0), sf::Color::White));
+		m_va.append(sf::Vertex(position + sf::Vector2f(i * 10, data[i] / 150000), sf::Color(m_sub_color[0], m_sub_color[1], m_sub_color[2], 0)));
 
 		m_sound_value += data[i] / (data.size() - i);
 	}
 
-	cout << m_sound_value << endl;
+	//cout << m_sound_value << endl;
 
 	//value
 	float a = m_sound_value / 20000000.f;
 	shader.setParameter("v", sf::Vector2f(a, a));
 
-
 	//下部フォグ
-	m_sub_color[0] = (keyJudge.getKeyColor().r != 0) ? 255 : m_sub_color[0];
-	m_sub_color[1] = (keyJudge.getKeyColor().g != 0) ? 255 : m_sub_color[1];
-	m_sub_color[2] = (keyJudge.getKeyColor().b != 0) ? 255 : m_sub_color[2];
-
 	for (int i = 0; i < 3; i++)
 	{
 		m_sub_color[i] -= (m_sub_color[i] > 0) ? 10 : 0;
@@ -77,5 +77,9 @@ void VisualEffect::updata(float time)
 void VisualEffect::render()
 {
 	windowManager.getWindow()->draw(m_sprite, state);
-	windowManager.getWindow()->draw(VA);
+	windowManager.getWindow()->draw(m_va);
+}
+
+void VisualEffect::setColor(sf::Color c)
+{
 }

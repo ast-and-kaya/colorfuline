@@ -13,12 +13,20 @@ TestRoom::~TestRoom()
 void TestRoom::initialize()
 {
 	//îwåi
-	m_tex.loadFromFile("data/image/test0.png");
+	m_tex.loadFromFile("data/image/test.png");
 	m_tex.setSmooth(true);
 	m_bg.setTexture(m_tex);
-
+	
 	m_shad.loadFromFile("data/shader/blur.frag",sf::Shader::Fragment);
 	m_state.shader = &m_shad;
+
+	hitEffect.initialize();
+
+
+	for (int i = 0; i < 87; i++)
+	{
+		cout << rand() % 3 + 1 << endl;
+	}
 }
 
 
@@ -35,15 +43,17 @@ Scene* TestRoom::update()
 
 	m_shad.setParameter("r", abs(a));
 
-
+	if (keyManager.push_key(sf::Keyboard::Return)) hitEffect.action();
+	hitEffect.update();
 	//---------------------------------------------------
-	cout << c.getElapsedTime().asSeconds() << endl;
+	//cout << c.getElapsedTime().asSeconds() << endl;
 	return next;
 }
 
 void TestRoom::render()
 {
-	windowManager.getWindow()->draw(m_bg, m_state);
+	windowManager.getWindow()->draw(m_bg);
+	hitEffect.render();
 }
 
 

@@ -52,6 +52,12 @@ void TextureManager::Loading() {
 	m_texture.insert(map<string, sf::Texture>::value_type("game_judge_line_sub", sf::Texture()));
 	m_texture["game_judge_line_sub"].loadFromFile("data/image/Game/judge_line_sub.png");
 
+	m_texture.insert(map<string, sf::Texture>::value_type("game_course_ring", sf::Texture()));
+	m_texture["game_course_ring"].loadFromFile("data/image/Game/time_course_ring.png");
+
+	m_texture.insert(map<string, sf::Texture>::value_type("game_course_fade", sf::Texture()));
+	m_texture["game_course_fade"].loadFromFile("data/image/Game/time_course_fade.png");
+
 	//ƒŠƒUƒ‹ƒg
 	m_texture.insert(map<string, sf::Texture>::value_type("result_select", sf::Texture()));
 	m_texture["result_select"].loadFromFile("data/image/result/select_line.png");
