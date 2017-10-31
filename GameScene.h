@@ -20,6 +20,7 @@
 #include "ScoreCalc.h"
 #include "TimeCourse.h"
 #include "HitEffect.h"
+#include "DecEffect.h"
 
 #include "Note.h"
 #include "Pause.h"
@@ -62,6 +63,7 @@ private:
 	ScoreCalc scoreCalc;
 	TimeCourse timeCourse;
 	HitEffect hitEffect;
+	DecEffect decEffect;
 
 	//ÉQÅ[ÉÄÇÃèÛë‘Å@0:before 1:now 2:after 3:stop
 	int m_game_state;
@@ -72,7 +74,7 @@ private:
 
 	int m_combo;
 
-	vector<Note> m_note;
+	vector<Note*> m_note;
 
 	bool m_black_zindex;
 };

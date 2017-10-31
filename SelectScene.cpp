@@ -55,6 +55,16 @@ void SelectScene::initialize()
 	m_shad_jacket.setParameter("t_color", m_diff_color[config.getNowMusic(config.Diff)]);
 	m_state_jacket.shader = &m_shad_jacket;
 
+	//譜面　有無
+	characterDisplay.setFont("Dosis", "data/font/Dosis-Light.ttf");
+	characterDisplay.setCharacter("music_found", "Dosis", "Music score is not found", sf::Vector2f(460, 490), 80, sf::Color::Black);
+	characterDisplay.setOrigin("music_found", CharacterDisplay::Align::Center);
+
+	m_music_found.setTexture(tex.get("select_music_found"));
+	m_music_found.setOrigin(0, m_music_found.getGlobalBounds().height / 2.f);
+	m_music_found.setPosition(0,540);
+
+
 	m_bf_music = -1;
 
 	sceneMovement.initialize();
@@ -134,9 +144,12 @@ Scene* SelectScene::update()
 	//シーン移動
 	static bool scene;
 	if (keyManager.push_key(sf::Keyboard::Return)) {
-		preview.getMusic().stop();
-		sceneMovement.In();
-		scene = true;
+		if (MusicScoreFound()){
+		}else{
+			preview.getMusic().stop();
+			sceneMovement.In();
+			scene = true;
+		}
 	}
 	if (keyManager.push_key(sf::Keyboard::Escape)) {
 		sceneMovement.In();
@@ -167,6 +180,11 @@ void SelectScene::render()
 	//曲pre
 	preview.render();
 
+	if (MusicScoreFound()) {
+		windowManager.getWindow()->draw(m_music_found);
+		characterDisplay.render("music_found");
+	}
+
 	if (m_black_zindex) sceneMovement.render();
 
 	//文字
@@ -178,4 +196,13 @@ void SelectScene::render()
 void SelectScene::setBlackZindex(bool b)
 {
 	m_black_zindex = b;
+}
+
+bool SelectScene::MusicScoreFound()
+{
+	if (0 == musicManager.getItem(config.getNowMusic(config.Num)).level[config.getNowMusic(config.Diff)]) {
+		return true;
+	}
+	
+	return false;
 }

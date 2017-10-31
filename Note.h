@@ -32,4 +32,7 @@ private:
 
 	float m_sec;
 	sf::Color m_color;
+
+	sf::Shader m_shad;
+	sf::RenderStates m_state;
 };

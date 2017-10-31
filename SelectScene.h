@@ -40,6 +40,8 @@ private:
 	Preview preview;
 	MusicGuide musicGuide;
 
+	bool MusicScoreFound();
+
 	//フォント
 	sf::Font m_font_list;
 
@@ -64,6 +66,9 @@ private:
 	sf::Sprite m_jacket;
 	sf::RenderStates m_state_jacket;
 	sf::Shader m_shad_jacket;
+
+	//譜面　有無
+	sf::Sprite m_music_found;
 
 	//曲変更感知
 	int m_bf_music;//前フレーム曲番号

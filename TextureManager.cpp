@@ -42,6 +42,9 @@ void TextureManager::Loading() {
 	m_texture.insert(map<string, sf::Texture>::value_type("select_loading1", sf::Texture()));
 	m_texture["select_loading1"].loadFromFile("data/image/Select/loading1.png");
 
+	m_texture.insert(map<string, sf::Texture>::value_type("select_music_found", sf::Texture()));
+	m_texture["select_music_found"].loadFromFile("data/image/Select/music_found.png");
+
 	//ÉQÅ[ÉÄ
 	m_texture.insert(map<string, sf::Texture>::value_type("game_note", sf::Texture()));
 	m_texture["game_note"].loadFromFile("data/image/Game/note.png");
@@ -57,6 +60,9 @@ void TextureManager::Loading() {
 
 	m_texture.insert(map<string, sf::Texture>::value_type("game_course_fade", sf::Texture()));
 	m_texture["game_course_fade"].loadFromFile("data/image/Game/time_course_fade.png");
+
+	m_texture.insert(map<string, sf::Texture>::value_type("game_judge_ring", sf::Texture()));
+	m_texture["game_judge_ring"].loadFromFile("data/image/Game/judge_ring.png");
 
 	//ÉäÉUÉãÉg
 	m_texture.insert(map<string, sf::Texture>::value_type("result_select", sf::Texture()));

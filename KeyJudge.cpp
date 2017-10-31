@@ -48,3 +48,10 @@ sf::Color KeyJudge::getKeyColor()
 {
 	return m_key_color;
 }
+
+void KeyJudge::resetKey()
+{
+	m_cnt[0] = 0;
+	m_cnt[1] = 0;
+	m_cnt[2] = 0;
+}

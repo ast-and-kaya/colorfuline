@@ -12,9 +12,12 @@ public:
 	void setMaxScore(int combo, int great_score);
 	float getMaxScore();
 
-	float add(int combo, int raw_score);
+	void add(int combo, int raw_score);
+
+	float getScore();
 
 private:
-	int m_max_score;
+	float m_max_score;
+	float m_score;
 };
 

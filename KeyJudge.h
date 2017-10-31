@@ -13,6 +13,8 @@ public:
 
 	sf::Color getKeyColor();
 
+	void resetKey();
+
 private:
 	KeyManager keyManager;
 
