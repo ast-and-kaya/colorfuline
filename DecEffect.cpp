@@ -17,12 +17,20 @@ void DecEffect::initialize()
 
 void DecEffect::update()
 {
+	cout << m_ring.size() << endl;
+
+	int c = 0;
 	for (auto &it : m_ring)
 	{
 		it.s_scale += (it.s_scale <= 1.f) ? 0.05 : 0;
 		it.s_sprite.setScale(it.s_scale, it.s_scale);
 		it.s_alpha = 255 - (it.s_scale * 255);
 		it.s_sprite.setColor(sf::Color(255, 255, 255, it.s_alpha));
+	}
+
+	if (!m_ring.empty())
+	{
+		if (m_ring[0].s_alpha == 0) m_ring.erase(m_ring.begin());
 	}
 }
 

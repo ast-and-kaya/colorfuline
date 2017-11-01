@@ -2,6 +2,7 @@
 #include "WindowManager.h"
 #include <iostream>
 #include "TextureManager.h"
+#include "SFML\Graphics.hpp"
 
 #include <chrono>
 

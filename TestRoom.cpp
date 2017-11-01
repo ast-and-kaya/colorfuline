@@ -29,6 +29,7 @@ Scene* TestRoom::update()
 	//---------------------------------------------------
 
 	if (keyManager.push_key(sf::Keyboard::Return))
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 	{
 		decEffect.setJudge(0);
 	}
