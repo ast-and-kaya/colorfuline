@@ -30,7 +30,7 @@ void DecEffect::update()
 
 	if (!m_ring.empty())
 	{
-		if (m_ring[0].s_alpha == 0) m_ring.erase(m_ring.begin());
+		if (m_ring[0].s_alpha <= 0) m_ring.erase(m_ring.begin());
 	}
 }
 

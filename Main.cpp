@@ -34,8 +34,8 @@ int main()
 	windowManager.setWindowActive(true);
 
 	Scene* m_scene;
-	m_scene = new TestRoom;
-	//m_scene = new LoadingScene;
+	//m_scene = new TestRoom;
+	m_scene = new LoadingScene;
 	m_scene->initialize();
 
 	while (m_window.isOpen())
