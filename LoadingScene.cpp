@@ -60,7 +60,7 @@ Scene * LoadingScene::update()
 
 	if (m_scene_move)
 	{
-		fft.setBufferData(m_buffer);
+		//fft.setBufferData(m_buffer);
 		next = new TitleScene;
 	}
 	if (m_cnt == musicManager.getItemNumber())

@@ -29,10 +29,6 @@ private:
 	KeyManager keyManager;
 	NowPlaying nowPlaying;
 
-	FFT fft;
-	vector<int> data;
-	sf::VertexArray VA2;
-
 	int m_back_number;
 
 	float m_start_time;

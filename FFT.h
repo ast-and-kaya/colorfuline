@@ -24,21 +24,22 @@ class FFT
 public:
 	FFT();
 	~FFT();
-
-	void init(int num);
+
+	void init(string const& _path);
 
 	void fft(CArray &x) ;
 	void update(float is_time = 0);
 
-	void setBufferData(const vector<sf::SoundBuffer>& buff);
-
 	vector<int> getData();
 
-	static vector<sf::SoundBuffer> buffer;
+	static void load();
+	static sf::SoundBuffer buffer;
 	static string m_path;
 
 private:
 	WindowManager windowManger;
+
+	sf::Thread* thread;
 
 	vector<Complex> sample ;
 	vector<float> window ;

@@ -14,7 +14,7 @@ VisualEffect::~VisualEffect()
 void VisualEffect::initialize()
 {
 	//fft
-	fft.init(config.getNowMusic(config.Num));
+	fft.init("data/music/" + musicManager.getFolderList(config.getNowMusic(config.Num)) + "/music.ogg");
 	m_va.setPrimitiveType(sf::Lines);
 
 	//value

@@ -4,6 +4,7 @@
 #include "WindowManager.h"
 #include "TextureManager.h"
 #include "ConfigManager.h"
+#include "MusicManager.h"
 
 #include "KeyJudge.h"
 
@@ -28,6 +29,7 @@ private:
 	ConfigManager config;
 	TextureManager tex;
 	KeyJudge keyJudge;
+	MusicManager musicManager;
 
 	FFT fft;
 	vector<int> data;

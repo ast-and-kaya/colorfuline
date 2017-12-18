@@ -1,6 +1,7 @@
 #include "FFT.h"
 
-vector<sf::SoundBuffer> FFT::buffer;
+sf::SoundBuffer FFT::buffer;
+string FFT::m_path;
 
 FFT::FFT()
 {
@@ -10,15 +11,17 @@ FFT::~FFT() {
 
 }
 
-void FFT::init(int num) {
-
-	m_num = num;
+void FFT::init(string const& path) {
+	m_path = path;
 
 	bufferSize = 16384;
 	sample.resize(bufferSize);
 	for (int i(0); i < bufferSize; i++) window.push_back(0.54 - 0.46*cos(2 * PI*i / (float)bufferSize));
 
 	mark = 0;
+
+	thread = new sf::Thread([&]() {this->load(); });
+	thread->launch();
 
 }
 
@@ -47,13 +50,13 @@ void FFT::update(float is_time)
 
 	mark = is_time * (44100 * 2);
 
-	//cout << is_time << ":" << buffer[m_num].getSampleCount() / (44100 * 2.f) << endl;
+	//cout << is_time << ":" << buffer.getSampleCount() / (44100 * 2.f) << endl;
 
-	if (is_time < buffer[m_num].getSampleCount() / (44100 * 2.f) - 1.f)
+	if (is_time < buffer.getSampleCount() / (44100 * 2.f) - 1.f)
 	{
 		for (int i(mark); i < bufferSize + mark; i++)
 		{
-			sample[i - mark] = Complex(buffer[m_num].getSamples()[i] * window[i - mark], 0);	
+			sample[i - mark] = Complex(buffer.getSamples()[i] * window[i - mark], 0);	
 		}
 	}	
 
@@ -72,12 +75,12 @@ void FFT::update(float is_time)
 	}
 }
 
-void FFT::setBufferData(const vector<sf::SoundBuffer>& buff)
-{
-	buffer = buff;
-}
-
 vector<int> FFT::getData()
 {
 	return data;
+}
+
+void FFT::load()
+{
+	buffer.loadFromFile(m_path);
 }

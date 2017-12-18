@@ -35,7 +35,8 @@ int main()
 
 	Scene* m_scene;
 	//m_scene = new TestRoom;
-	m_scene = new LoadingScene;
+	//m_scene = new LoadingScene;
+	m_scene = new TitleScene;
 	m_scene->initialize();
 
 	while (m_window.isOpen())
@@ -66,7 +67,7 @@ int main()
 
 		m_window.display();
 
-		//cout << c.getElapsedTime().asSeconds() << endl;
+		cout << c.getElapsedTime().asSeconds() << endl;
 	}
 
 	return 0;

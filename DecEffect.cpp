@@ -17,7 +17,7 @@ void DecEffect::initialize()
 
 void DecEffect::update()
 {
-	cout << m_ring.size() << endl;
+	//cout << m_ring.size() << endl;
 
 	int c = 0;
 	for (auto &it : m_ring)
