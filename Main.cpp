@@ -22,8 +22,8 @@ int main()
 	ScoreManager scoreManager;
 	scoreManager.DataLoad();
 
-	TextureManager tex;
-	tex.Loading();
+	TextureManager textureManager;
+	textureManager.Loading();
 
 	sf::RenderWindow m_window(sf::VideoMode(config.m_window_size.x, config.m_window_size.y), "colorfuline ver.2.0", sf::Style::Close);
 	m_window.setFramerateLimit(60);
@@ -34,8 +34,6 @@ int main()
 	windowManager.setWindowActive(true);
 
 	Scene* m_scene;
-	//m_scene = new TestRoom;
-	//m_scene = new LoadingScene;
 	m_scene = new TitleScene;
 	m_scene->initialize();
 
@@ -66,8 +64,6 @@ int main()
 		m_scene->render();
 
 		m_window.display();
-
-		cout << c.getElapsedTime().asSeconds() << endl;
 	}
 
 	return 0;
