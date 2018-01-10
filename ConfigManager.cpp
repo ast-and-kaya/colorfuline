@@ -6,13 +6,15 @@ int ConfigManager::m_music_diff;
 
 int ConfigManager::m_lane_distance;
 float ConfigManager::m_start_margin;
-float ConfigManager::m_judge_frame[3];
+ConfigManager::JUDGE_FRAME ConfigManager::m_judge_frame;
 
 int ConfigManager::m_black_time;
 
 float ConfigManager::m_preview_fade;
 
-int ConfigManager::m_raw_score[3];
+ConfigManager::RAW_SCORE ConfigManager::m_raw_score;
+
+ConfigManager::SOUND_VALUE ConfigManager::m_sound_value;
 
 ConfigManager::ConfigManager()
 {
@@ -40,25 +42,30 @@ void ConfigManager::DataLoading() {
 
 void ConfigManager::initialize()
 {
+	//目
 	m_music_num = 0;
 	m_music_diff = 0;
 
-	//マジックナンバー
 	m_lane_distance = 940;//レーンの距離
-	m_start_margin = 5.0f;//
+	m_start_margin = 5.0f;//曲再生までの時間
 	//判定時間
 	float frame = 1.f / 60.f;
-	m_judge_frame[0] = frame * 2;//perfect
-	m_judge_frame[1] = frame * 6;//great
-	m_judge_frame[2] = frame * 10;//good
+	m_judge_frame.great = frame * 2;//perfect
+	m_judge_frame.good = frame * 6;//great
+	m_judge_frame.bad = frame * 10;//good
 	//暗転スピード
 	m_black_time = 5;
 	//プレビューのフェード秒数
 	m_preview_fade = 3.0f; 
 	//スコア　素点
-	m_raw_score[0] = 300;
-	m_raw_score[1] = 250;
-	m_raw_score[2] = 50;
+	m_raw_score.great = 300;
+	m_raw_score.good = 250;
+	m_raw_score.bad = 100;
+	//音量
+	m_sound_value.master = 0.f;
+	m_sound_value.se = 1.f;
+	m_sound_value.music = 1.f;
+	m_sound_value.tip = 1.f;
 }
 
 void ConfigManager::setNowMusicNum(int num) {
@@ -83,9 +90,9 @@ float ConfigManager::getStartMargin()
 	return m_start_margin;
 }
 
-float ConfigManager::getJudgeFrame(int f)
+ConfigManager::JUDGE_FRAME ConfigManager::getJudgeFrame()
 {
-	return m_judge_frame[f];
+	return m_judge_frame;
 }
 
 int ConfigManager::getBlackTime()
@@ -98,7 +105,12 @@ float ConfigManager::getPreviewFade()
 	return m_preview_fade;
 }
 
-int ConfigManager::getRawScore(int num)
+ConfigManager::RAW_SCORE ConfigManager::getRawScore()
 {
-	return m_raw_score[num];
+	return m_raw_score;
+}
+
+ConfigManager::SOUND_VALUE ConfigManager::getSoundValue()
+{
+	return m_sound_value;
 }

@@ -62,12 +62,14 @@ void TextureManager::Loading() {
 	m_texture["game_course_fade"].loadFromFile("data/image/Game/time_course_fade.png");
 
 	m_texture.insert(map<string, sf::Texture>::value_type("game_judge_ring", sf::Texture()));
-	m_texture["game_judge_ring"].loadFromFile("data/image/Game/judge_ring.png");
+	m_texture["game_judge_ring"].loadFromFile("data/image/Game/judge_ring_2.png");
 
 	//リザルト
 	m_texture.insert(map<string, sf::Texture>::value_type("result_select", sf::Texture()));
 	m_texture["result_select"].loadFromFile("data/image/result/select_line.png");
 
+
+	//ギザギザ無くし
 	for (auto& it : m_texture)
 	{
 		it.second.setSmooth(true);

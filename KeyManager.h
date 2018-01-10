@@ -22,5 +22,5 @@ public:
 
 private:
 	WindowManager windowManager;
-	static bool m_key_lock[101];
+	static bool m_key_lock[101];//101‚ÍƒL[‚Ìí—Ş
 };

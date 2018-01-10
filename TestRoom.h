@@ -9,6 +9,8 @@
 
 using namespace std;
 
+//テスト用
+//gitでブランチした方が良いかもしれない
 class TestRoom :
 	public Scene
 {

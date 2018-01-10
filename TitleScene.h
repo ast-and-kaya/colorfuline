@@ -7,7 +7,8 @@
 #include "SceneMovement.h"
 #include "ConfigManager.h"
 
-
+//ƒ^ƒCƒgƒ‹
+//
 class TitleScene:
 	public Scene
 {

@@ -4,6 +4,8 @@
 
 using namespace std;
 
+//ハイスコアデータの管理・読み書き等
+//まだ未実装
 class ScoreManager
 {
 public:

@@ -58,7 +58,7 @@ void GameScene::initialize()
 	sceneMovement.initialize();
 	sceneMovement.In();
 
-	scoreCalc.setMaxScore(musicScore.getSize(), config.getRawScore(0));
+	scoreCalc.setMaxScore(musicScore.getSize(), config.getRawScore().great);
 }
 
 
@@ -162,8 +162,10 @@ void GameScene::playNow() {
 		decEffect.setJudge(judge);
 
 		m_great += (judge == 1) ? 1 : 0;
-
-		scoreCalc.add( m_combo, config.getRawScore(judge - 1));
+		
+		if (judge == 1) scoreCalc.add( m_combo, config.getRawScore().great);
+		if (judge == 2) scoreCalc.add(m_combo, config.getRawScore().good);
+		if (judge == 3) scoreCalc.add(m_combo, config.getRawScore().bad);
 		m_score = scoreCalc.getScore();
 
 		keyJudge.resetKey();

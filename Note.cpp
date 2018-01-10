@@ -41,9 +41,9 @@ int Note::judge(float sec, sf::Color color) { // 0:miss 1:perfect 2:great 3:good
 
 	if (m_color == color)
 	{
-		if (abs(m_sec - sec) <= config.getJudgeFrame(0) / 2.f) return 1;//perfect
-		if (abs(m_sec - sec) <= config.getJudgeFrame(1) / 2.f) return 2;//great
-		if (abs(m_sec - sec) <= config.getJudgeFrame(2) / 2.f) return 3;//good
+		if (abs(m_sec - sec) <= config.getJudgeFrame().great / 2.f) return 1;//perfect
+		if (abs(m_sec - sec) <= config.getJudgeFrame().good / 2.f) return 2;//great
+		if (abs(m_sec - sec) <= config.getJudgeFrame().bad / 2.f) return 3;//good
 	}
 	
 	return 0;
@@ -51,7 +51,7 @@ int Note::judge(float sec, sf::Color color) { // 0:miss 1:perfect 2:great 3:good
 
 bool Note::rangeOut(float sec)
 {
-	return (sec > m_sec + config.getJudgeFrame(2)) ? true : false;
+	return (sec > m_sec + config.getJudgeFrame().bad) ? true : false;
 }
 
 float Note::getSec() {

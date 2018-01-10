@@ -28,10 +28,11 @@ void MusicManager::DataLoding() {
 	} while (FindNextFile(hFind, &find_dir_data));
 
 	//data.jsonì«Ç›çûÇ›
-	for (int i = 0; i < m_folder_list.size(); i++)
+	for ( auto& it: m_folder_list)
 	{
+		//ÉtÉ@ÉCÉãì«Ç›çûÇ›
 		ifstream fs;
-		fs.open("data/music/"+ m_folder_list[i] +"/data.json", std::ios::binary);
+		fs.open("data/music/"+ it +"/data.json", std::ios::binary);
 		assert(fs);
 		picojson::value val;
 		fs >> val;

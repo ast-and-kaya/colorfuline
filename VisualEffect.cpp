@@ -77,6 +77,7 @@ void VisualEffect::updata(float time)
 void VisualEffect::render()
 {
 	windowManager.getWindow()->draw(m_sprite, state);
+	//windowManager.getWindow()->draw(m_sprite);
 	windowManager.getWindow()->draw(m_va);
 }
 
